@@ -5,6 +5,8 @@ Test Repository
 
 `git clone https://github.com/zpqrtbnk/test-repo.git .`
 
+We have pages at : http://zpqrtbnk.github.io/test-repo/ 
+
 Edit the file  
 Add an image  
 Can't get a newline? Must add two spaces  
