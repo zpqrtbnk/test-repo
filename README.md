@@ -7,9 +7,7 @@ Test Repository
 
 We have pages at : http://zpqrtbnk.github.io/test-repo/ 
 
-Edit the file  
-Add an image  
-Can't get a newline? Must add two spaces  
+ 
 
 Include  
 ![Image](https://raw.github.com/zpqrtbnk/test-repo/master/wtf.jpg)
