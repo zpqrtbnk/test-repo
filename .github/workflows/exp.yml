@@ -11,4 +11,4 @@ jobs:
 
     steps:
       - name: Experiment
-        uses: zpqrtbnk/gh-action-experiment@master
+        uses: zpqrtbnk/gh-actions/experiment@master
