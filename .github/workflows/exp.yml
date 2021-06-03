@@ -1,0 +1,14 @@
+
+name: Experiment
+on: push
+
+jobs:
+
+  experiment:
+    name: Experiment
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Experiment
+        uses: zpqrtbnk/gh-action-experiment
