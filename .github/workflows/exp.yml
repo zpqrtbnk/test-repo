@@ -12,3 +12,8 @@ jobs:
     steps:
       - name: Experiment
         uses: zpqrtbnk/gh-actions/experiment@master
+        
+      - name: Infos
+        shell: bash
+        run: |
+          echo "github.ref: '${{ github.ref }}'"
