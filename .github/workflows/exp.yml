@@ -29,24 +29,36 @@ jobs:
         run: |
           git log --graph --pretty=format':%h%%d %s %an, %ar' | head -n 5
           echo "--"
-          BRANCH="${{ github.ref }}"
-          BRANCH=${BRANCH#refs/heads/r/}"
-          if [ "$BRANCH" != "${{ github.ref }}" ]; then
-            # a commit, not a tag
-            echo "COMMIT"
-            git fetch origin wip-$BRANCH:wip-$BRANCH
-            if [ $? -ne 0 ]; then
-              echo "TAG NOT FOUND"
+          REF="${{ github.ref }}"
+          BRANCH=${REF#refs/heads/}"
+          
+          if [ "$BRANCH" != "$REF" ]; then         
+            VERSION=${BRANCH#release/}"
+            if [ "$VERSION" != "$BRANCH" ]; then
+                echo "COMMIT IN VERSION BRANCH"
+                git fetch origin wip-$BRANCH:wip-$BRANCH
+                if [ $? -ne 0 ]; then
+                    echo "TAG NOT FOUND"
+                else
+                    TAGSHA=$(git rev-parse wip-$BRANCH)
+                    echo "FOUND TAG $TAGSHA"
+                    if [ "$TAGSHA" != "${{ github.sha }}" ]; then
+                        echo "BAD TAG"
+                    else
+                        echo "GOOD TAG"
+                    fi
+                fi
             else
-              TAGSHA=$(git rev-parse wip-$BRANCH)
-              echo "FOUND TAG $TAGSHA"
-              if [ "$TAGSHA" != "${{ github.sha }}" ]; then
-                echo "BAD TAG"
-              else
-                echo "GOOD TAG"
-              fi
+                echo "COMMIT IN NON-VERSION BRANCH"
             fi
-          else
-            # a tag?
-            echo "TAG"
+            exit 0
           fi
+
+          TAG=${REF#refs/tags/}"
+          if [ "$TAG" != "$REF" ]; then
+            echo "TAG"
+            exit 0
+          fi
+          
+          echo "ERR"
+          exit 1
