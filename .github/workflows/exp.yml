@@ -36,17 +36,17 @@ jobs:
           if [ "$BRANCH" != "$REF" ]; then         
             VERSION=${BRANCH#release/}"
             if [ "$VERSION" != "$BRANCH" ]; then
-                echo "COMMIT IN VERSION BRANCH"
-                git fetch origin wip-$BRANCH:wip-$BRANCH
+                echo "COMMIT IN VERSION $VERSION BRANCH $BRANCH"
+                git fetch origin wip-$VERSION:wip-$VERSION
                 if [ $? -ne 0 ]; then
                     echo "TAG NOT FOUND"
                 else
-                    TAGSHA=$(git rev-parse wip-$BRANCH)
+                    TAGSHA=$(git rev-parse wip-$VERSION)
                     echo "FOUND TAG $TAGSHA"
                     if [ "$TAGSHA" != "${{ github.sha }}" ]; then
                         echo "BAD TAG"
                     else
-                        echo "GOOD TAG"
+                        echo "TAGGED BRANCH"
                     fi
                 fi
             else
