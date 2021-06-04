@@ -62,11 +62,17 @@ jobs:
             HZVERSION=${HZTAG#v}
             if [ "$HZVERSION" != "$HZTAG" ]; then # it is a version tag
                 echo "Triggered by version tag $HZTAG"
-                if (git show-ref --verify --quiet refs/heads/release/$HZVERSION && git tag --contains release/$HZVERSION | grep -q $HZTAG); then
-                    echo "Tag is in the correct branch"
-                else
-                    echo "::error::Tag $HZTAG does not belong to branch release/$HZVERSION"
+                git fetch origin refs/heads/release/$HZVERSION:refs/heads/release/$HZVERSION
+                if [ $? -ne 0 ]; then
+                    echo "::error::Branch release/$HZVERSION does not exist"
                     exit 1
+                else
+                    if (git tag --contains release/$HZVERSION | grep -q $HZTAG); then
+                        echo "Tag is in the correct branch"
+                    else
+                        echo "::error::Tag $HZTAG does not belong to branch release/$HZVERSION"
+                        exit 1
+                    fi
                 fi
             else
                 echo "::error::Triggered by non-version tag $HZTAG"
