@@ -36,28 +36,30 @@ jobs:
           if [ "$BRANCH" != "$REF" ]; then         
             VERSION=${BRANCH#release/}
             if [ "$VERSION" != "$BRANCH" ]; then
-                echo "COMMIT IN VERSION $VERSION BRANCH $BRANCH"
+                echo "Triggered by commit in version $VERSION release branch $BRANCH"
                 git fetch origin wip-$VERSION:wip-$VERSION
                 if [ $? -ne 0 ]; then
-                    echo "TAG NOT FOUND"
+                    echo "Tag v$VERSION does not exist"
                 else
                     TAGSHA=$(git rev-parse wip-$VERSION)
                     echo "FOUND TAG $TAGSHA"
                     if [ "$TAGSHA" != "${{ github.sha }}" ]; then
-                        echo "BAD TAG"
+                        echo "TAG v$VERSION exists on another commit : error"
+                        exit 1
                     else
-                        echo "TAGGED BRANCH"
+                        echo "Tag v$VERSION exists on this commit: nothing to do here"
                     fi
                 fi
             else
-                echo "COMMIT IN NON-VERSION BRANCH"
+                echo "Triggered by commit in non-release branch $BRANCH: error"
+                exit 1
             fi
             exit 0
           fi
 
           TAG=${REF#refs/tags/}"
           if [ "$TAG" != "$REF" ]; then
-            echo "TAG"
+            echo "Triggered by tag $TAG"
             exit 0
           fi
           
