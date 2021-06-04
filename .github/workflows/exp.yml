@@ -67,13 +67,13 @@ jobs:
                     echo "::error::Branch release/$HZVERSION does not exist"
                     exit 1
                 else
-                    git tag --contains release/$HZVERSION
-                    git log --graph --pretty=format':%h%%d %s %an, %ar' | head -n 5
-                    if (git tag --contains release/$HZVERSION | grep -q $HZTAG); then
-                        echo "Tag is in the correct branch"
+                    HZBRANCHSHA=$(git rev-parse release/$HZVERSION)
+                    HZPARENTSHA=$(git rev-parse $HZTAG^1)
+                    if [ "$HZBRANCHSHA" != "$HZPARENTSHA" ]; then
+                      echo "::error::Tag parent is not HEAD of release/$HZVERSION but $HZPARENTSHA"
+                      exit 1
                     else
-                        echo "::error::Tag $HZTAG does not belong to branch release/$HZVERSION"
-                        exit 1
+                        echo "Tag parent is HEAD of release/$HZVERSION, proceed"
                     fi
                 fi
             else
