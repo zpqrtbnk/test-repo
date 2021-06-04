@@ -37,15 +37,15 @@ jobs:
             VERSION=${BRANCH#release/}
             if [ "$VERSION" != "$BRANCH" ]; then
                 echo "Triggered by commit in version $VERSION release branch $BRANCH"
-                #git fetch origin refs/tags/v$VERSION:refs/tags/v$VERSION
-                #if [ $? -ne 0 ]; then
-                #    echo "Tag v$VERSION does not exist"
-                #else
-                    #TAGSHA=$(git rev-parse v$VERSION)
-                TAGSHA=$(git rev-parse ref/tags/v$VERSION)
+                git fetch origin refs/tags/v$VERSION:refs/tags/v$VERSION
                 if [ $? -ne 0 ]; then
                     echo "Tag v$VERSION does not exist"
                 else
+                    TAGSHA=$(git rev-parse v$VERSION)
+                #TAGSHA=$(git rev-parse ref/tags/v$VERSION)
+                #if [ $? -ne 0 ]; then
+                #    echo "Tag v$VERSION does not exist"
+                #else
                     echo "FOUND TAG $TAGSHA"
                     if [ "$TAGSHA" != "${{ github.sha }}" ]; then
                         echo "TAG v$VERSION exists on another commit (${{ github.sha }}) : error"
