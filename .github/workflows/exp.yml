@@ -31,7 +31,7 @@ jobs:
           git log --graph --pretty=format':%h%%d %s %an, %ar' | head -n 5
           echo "--"
           REF="${{ github.ref }}"
-          BRANCH=${REF#refs/heads/}"
+          BRANCH=${REF#refs/heads/}
           
           if [ "$BRANCH" != "$REF" ]; then         
             VERSION=${BRANCH#release/}"
