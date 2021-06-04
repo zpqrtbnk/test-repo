@@ -17,6 +17,7 @@ jobs:
         shell: bash
         run: |
           echo "github.ref: '${{ github.ref }}'"
+          echo "github.sha: '${{ github.sha }}'"
           
       - name: Checkout
         uses: actions/checkout@v2
@@ -27,3 +28,23 @@ jobs:
         shell: bash
         run: |
           git log --graph --pretty=format':%h%%d %s %an, %ar' | head -n 5
+          if [ "${{ github.ref }}#refs/heads/" != "${{ github.ref }}" ]; then
+            # a commit, not a tag
+            echo "COMMIT"
+            BRANCH="${{ github.ref }}#refs/heads/"
+            git fetch origin wip-$BRANCH:wip-$BRANCH
+            if [ $? -ne 0 ]; then
+              echo "TAG NOT FOUND"
+            else
+              TAGSHA=$(git rev-parse wip-$BRANCH)
+              echo "FOUND TAG $TAGSHA"
+              if [ "$TAGSHA" != "${{ github.sha }}" ]; then
+                echo "BAD TAG"
+              else
+                echo "GOOD TAG"
+              fi
+            fi
+          else
+            # a tag?
+            echo "TAG"
+          fi
