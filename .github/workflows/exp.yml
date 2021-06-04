@@ -17,3 +17,13 @@ jobs:
         shell: bash
         run: |
           echo "github.ref: '${{ github.ref }}'"
+          
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Report
+        shell: bash
+        run: |
+          git log --graph --pretty=format':%h%%d %s %an, %ar' | head -n 5
