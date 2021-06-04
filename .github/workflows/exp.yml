@@ -57,7 +57,7 @@ jobs:
             exit 0
           fi
 
-          TAG=${REF#refs/tags/}"
+          TAG=${REF#refs/tags/}
           if [ "$TAG" != "$REF" ]; then
             echo "Triggered by tag $TAG"
             exit 0
