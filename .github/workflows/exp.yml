@@ -42,30 +42,38 @@ jobs:
                     echo "Tag v$VERSION does not exist"
                 else
                     TAGSHA=$(git rev-parse v$VERSION)
-                #TAGSHA=$(git rev-parse ref/tags/v$VERSION)
-                #if [ $? -ne 0 ]; then
-                #    echo "Tag v$VERSION does not exist"
-                #else
                     echo "FOUND TAG $TAGSHA"
                     if [ "$TAGSHA" != "${{ github.sha }}" ]; then
-                        echo "TAG v$VERSION exists on another commit (${{ github.sha }}) : error"
+                        echo "::error::TAG v$VERSION exists on another commit (${{ github.sha }}) : error"
                         exit 1
                     else
                         echo "Tag v$VERSION exists on this commit: nothing to do here"
                     fi
                 fi
             else
-                echo "Triggered by commit in non-release branch $BRANCH: error"
+                echo "::error::Triggered by commit in non-release branch $BRANCH: error"
                 exit 1
             fi
             exit 0
           fi
 
-          TAG=${REF#refs/tags/}
-          if [ "$TAG" != "$REF" ]; then
-            echo "Triggered by tag $TAG"
+          HZTAG=${REF#refs/tags/}
+          if [ "$HZTAG" != "$REF" ]; then
+            HZVERSION=${HZTAG#v}
+            if [ "$HZVERSION" != "$HZTAG" ]; then # it is a version tag
+                echo "Triggered by version tag $HZTAG"
+                if (git show-ref --verify --quiet refs/heads/release/$HZVERSION && git tag --contains release/$HZVERSION | grep -q $HZTAG); then
+                    echo "Tag is in the correct branch"
+                else
+                    echo "::error::Tag $HZTAG does not belong to branch release/$HZVERSION"
+                    exit 1
+                fi
+            else
+                echo "::error::Triggered by non-version tag $HZTAG"
+                exit 1
+            fi
             exit 0
           fi
           
-          echo "ERR"
+          echo "::error::I am confused"
           exit 1
