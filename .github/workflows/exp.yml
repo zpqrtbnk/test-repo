@@ -67,6 +67,8 @@ jobs:
                     echo "::error::Branch release/$HZVERSION does not exist"
                     exit 1
                 else
+                    git tag --contains release/$HZVERSION
+                    git log --graph --pretty=format':%h%%d %s %an, %ar' | head -n 5
                     if (git tag --contains release/$HZVERSION | grep -q $HZTAG); then
                         echo "Tag is in the correct branch"
                     else
