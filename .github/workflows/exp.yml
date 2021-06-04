@@ -28,10 +28,12 @@ jobs:
         shell: bash
         run: |
           git log --graph --pretty=format':%h%%d %s %an, %ar' | head -n 5
-          if [ "${{ github.ref }}#refs/heads/" != "${{ github.ref }}" ]; then
+          echo "--"
+          BRANCH="${{ github.ref }}"
+          BRANCH=${BRANCH#refs/heads/r/}"
+          if [ "$BRANCH" != "${{ github.ref }}" ]; then
             # a commit, not a tag
             echo "COMMIT"
-            BRANCH="${{ github.ref }}#refs/heads/"
             git fetch origin wip-$BRANCH:wip-$BRANCH
             if [ $? -ne 0 ]; then
               echo "TAG NOT FOUND"
