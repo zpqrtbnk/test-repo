@@ -27,6 +27,7 @@ jobs:
       - name: Report
         shell: bash
         run: |
+          set +e
           git log --graph --pretty=format':%h%%d %s %an, %ar' | head -n 5
           echo "--"
           REF="${{ github.ref }}"
