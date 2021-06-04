@@ -34,7 +34,7 @@ jobs:
           BRANCH=${REF#refs/heads/}
           
           if [ "$BRANCH" != "$REF" ]; then         
-            VERSION=${BRANCH#release/}"
+            VERSION=${BRANCH#release/}
             if [ "$VERSION" != "$BRANCH" ]; then
                 echo "COMMIT IN VERSION $VERSION BRANCH $BRANCH"
                 git fetch origin wip-$VERSION:wip-$VERSION
