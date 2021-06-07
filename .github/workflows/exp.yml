@@ -10,79 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Experiment
-        uses: zpqrtbnk/gh-actions/experiment@master
+      #- name: Experiment
+      #  uses: zpqrtbnk/gh-actions/experiment@master
         
-      - name: Infos
-        shell: bash
-        run: |
-          echo "github.ref: '${{ github.ref }}'"
-          echo "github.sha: '${{ github.sha }}'"
-          
       - name: Checkout
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 2 # get parent
 
-      - name: Report
-        shell: bash
-        run: |
-          set +e
-          git log --graph --pretty=format':%h%%d %s %an, %ar' | head -n 5
-          echo "--"
-          REF="${{ github.ref }}"
-          BRANCH=${REF#refs/heads/}
-          
-          if [ "$BRANCH" != "$REF" ]; then         
-            VERSION=${BRANCH#release/}
-            if [ "$VERSION" != "$BRANCH" ]; then
-                echo "Triggered by commit in version $VERSION release branch $BRANCH"
-                git fetch origin refs/tags/v$VERSION:refs/tags/v$VERSION
-                if [ $? -ne 0 ]; then
-                    echo "Tag v$VERSION does not exist"
-                else
-                    TAGSHA=$(git rev-parse v$VERSION)
-                    echo "FOUND TAG $TAGSHA"
-                    if [ "$TAGSHA" != "${{ github.sha }}" ]; then
-                        echo "::error::TAG v$VERSION exists on another commit (${{ github.sha }}) : error"
-                        exit 1
-                    else
-                        echo "Tag v$VERSION exists on this commit: nothing to do here"
-                    fi
-                fi
-            else
-                echo "::error::Triggered by commit in non-release branch $BRANCH: error"
-                exit 1
-            fi
-            exit 0
-          fi
-
-          HZTAG=${REF#refs/tags/}
-          if [ "$HZTAG" != "$REF" ]; then
-            HZVERSION=${HZTAG#v}
-            if [ "$HZVERSION" != "$HZTAG" ]; then # it is a version tag
-                echo "Triggered by version tag $HZTAG"
-                git fetch origin refs/heads/release/$HZVERSION:refs/heads/release/$HZVERSION
-                if [ $? -ne 0 ]; then
-                    echo "::error::Branch release/$HZVERSION does not exist"
-                    exit 1
-                else
-                    HZBRANCHSHA=$(git rev-parse release/$HZVERSION)
-                    HZPARENTSHA=$(git rev-parse $HZTAG^1)
-                    if [ "$HZBRANCHSHA" != "$HZPARENTSHA" ]; then
-                      echo "::error::Tag parent is not HEAD of release/$HZVERSION but $HZPARENTSHA"
-                      exit 1
-                    else
-                        echo "Tag parent is HEAD of release/$HZVERSION, proceed"
-                    fi
-                fi
-            else
-                echo "::error::Triggered by non-version tag $HZTAG"
-                exit 1
-            fi
-            exit 0
-          fi
-          
-          echo "::error::I am confused"
-          exit 1
+      - name: Invoke
+        uses: ./.github/actions/utils

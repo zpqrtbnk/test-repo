@@ -1,0 +1,15 @@
+name: Utils
+
+description: |
+  Utils...
+author: ZpqrtBnk <sgay@pilotine.com>
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: echo "Hello from Utils"
+      
+branding:
+  color: blue
+  icon: file-text
