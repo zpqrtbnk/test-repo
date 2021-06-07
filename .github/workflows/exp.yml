@@ -19,4 +19,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Invoke
-        uses: ./.github/actions/utils
+        uses: ./.github/actions/utils.yml
