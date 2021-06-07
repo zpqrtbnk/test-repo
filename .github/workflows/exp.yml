@@ -20,3 +20,5 @@ jobs:
 
       - name: Invoke
         uses: ./.github/actions/utils
+        with:
+          mode: meh

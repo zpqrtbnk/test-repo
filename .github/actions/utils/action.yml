@@ -4,11 +4,16 @@ description: |
   Utils...
 author: ZpqrtBnk <sgay@pilotine.com>
 
+inputs:
+  mode:
+    description: Some Description
+    default: miss
+
 runs:
   using: composite
   steps:
     - shell: bash
-      run: echo "Hello from Utils"
+      run: echo "Hello from Utils + ${{ inputs.mode }}"
       
 branding:
   color: blue
