@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Experiment
         uses: zpqrtbnk/gh-actions/experiment@master
+        with:
+          mode: woot
         
       - name: Infos
         shell: bash
