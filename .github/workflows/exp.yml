@@ -18,6 +18,7 @@ jobs:
       - name: Script
         uses: zpqrtbnk/gh-actions/jsaction@master
         with:
+          githubToken: ${{ github.token }}
           text: zoot
 
       - name: Infos
