@@ -15,6 +15,11 @@ jobs:
         with:
           mode: woot
         
+      - name: Script
+        uses: zpqrtbnk/gh-actions/jsaction@master
+        with:
+          mode: woot
+
       - name: Infos
         shell: bash
         run: |
