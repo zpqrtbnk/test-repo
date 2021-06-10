@@ -18,7 +18,7 @@ jobs:
       - name: Script
         uses: zpqrtbnk/gh-actions/jsaction@master
         with:
-          mode: woot
+          text: zoot
 
       - name: Infos
         shell: bash
