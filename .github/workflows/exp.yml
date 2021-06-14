@@ -14,6 +14,13 @@ jobs:
         uses: zpqrtbnk/gh-actions/experiment@master
         with:
           mode: woot
+          
+      - name: Embedded
+        uses: ./.github/actions/test-action
+        with:
+          name: NAME
+          path: PATH
+          version: VERSION
         
       - name: Script
         uses: zpqrtbnk/gh-actions/jsaction@master
