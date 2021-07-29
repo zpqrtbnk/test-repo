@@ -26,4 +26,8 @@ it so it's very basic anyway...
 etc
 etc
 
-<img src="./wtf.jpg" />
+<p align="center" style="background:#000;padding:5px;color:#fff;font-size:150%;margin-bottom:64px">
+    <img src="./doc/images/hazelcast-logo.svg" style="display:block;background:#000;" />
+    <span style="margin-left:48px;">wubble</span>
+</p>
+
