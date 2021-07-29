@@ -25,3 +25,5 @@ it so it's very basic anyway...
 
 etc
 etc
+
+<img src="./wtf.jpg" />
