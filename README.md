@@ -26,8 +26,10 @@ it so it's very basic anyway...
 etc
 etc
 
+<img src="./wtf.png" />
+
 <p align="center" style="background:#000;padding:5px;color:#fff;font-size:150%;margin-bottom:64px">
-    <img src="./wtf.png" style="display:block;background:#000;" />
+    <img src="./wtf.png" />
     <span style="margin-left:48px;">wubble</span>
 </p>
 
