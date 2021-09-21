@@ -11,6 +11,7 @@ jobs:
   build-pr:
 
     name: Build PR (...)
+    runs-on: linux-latest
 
     strategy:
       fail-fast: false
