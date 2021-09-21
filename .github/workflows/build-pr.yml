@@ -1,0 +1,26 @@
+#
+# Workflow: Build PR
+#
+
+name: Build PR
+on: pull_request
+
+jobs:
+
+  # build and test the PR
+  build-pr:
+
+    name: Build PR (...)
+
+    strategy:
+      fail-fast: false
+
+    steps:
+    
+      - name: Step 1
+        shell: bash
+        run: echo "step 1 of {{ github.event.pull_request.number }}"
+        
+      - name: Step 2
+        shell: bash
+        run: echo "step 2 of {{ github.event.pull_request.number }}"
