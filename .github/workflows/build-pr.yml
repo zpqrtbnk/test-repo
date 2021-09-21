@@ -9,7 +9,7 @@ jobs:
 
   build-pr:
 
-    name: "Build PR ${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}"
+    name: "Build PR #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}"
     runs-on: ubuntu-latest
 
     steps:
