@@ -26,7 +26,12 @@ jobs:
       # symlink
       - name: Symlink
         shell: bash
-        run: if ! [ -L bang ]; then ln -s duh bang; fi
+        run: |
+            if ! [ -L bang ]; then
+                ln -s duh bang
+                git add bang
+                git commit -m "created symlink"
+            fi
 
       # push changes back
       - name: Push
