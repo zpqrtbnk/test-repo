@@ -1,0 +1,34 @@
+name: Symlink Test
+on:
+  # trigger on push to any branch
+  push:
+    branches-ignore:
+      - 'release/*'
+    tags-ignore:
+      - '*'
+
+jobs:
+
+  # try to create and push the symlink
+  symlink-test:
+
+    name: Symlink Test
+    runs-on: windows-latest
+
+    steps:
+
+      # checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # symlink
+      - name: Symlink
+        shell: bash
+        run: if ! [ -L bang ]; then ln -s duh bang; fi
+
+      # push changes back
+      - name: Push
+        shell: bash
+        run: git push
