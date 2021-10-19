@@ -29,9 +29,11 @@ jobs:
         run: |
             if ! [ -L bang ]; then
                 ln -s duh bang
+                ls -l
                 git add bang
                 git config --global user.email "stephan@REDACTED.com"
                 git config --global user.name "Stephan"
+                git config --global core.symlinks "true"
                 git commit -m "created symlink"
             fi
 
