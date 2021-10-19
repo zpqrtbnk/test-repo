@@ -23,12 +23,12 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # symlink
+      # symlink via bash
+      #   this does *not* create a symlink, but a directory
       #- name: Symlink Bash
       #  shell: bash
       #  run: |
       #      if ! [ -L bang ]; then
-      #          # however, this does *not* create a symlink, but a directory
       #          ln -s duh bang
       #          ls -l
       #          git config --global user.email "stephan@REDACTED.com"
@@ -39,11 +39,17 @@ jobs:
       #      fi
 
       # symlink via pwsh
+      #   this creates a 'bang' file that contains 'duh'
+      #   on local machine, it fails 'New-Item: Administrator privilege required for this operation.'
       - name: Symlink Pwsh
         shell: pwsh
         run: |
           if (! (test-path bang)) {
             New-Item -ItemType SymbolicLink -Name bang -Target duh
+            write-output "DIR:"
+            ls .
+            write-output "DIR:"
+            ls bang
             git config --global user.email "stephan@REDACTED.com"
             git config --global user.name "Stephan"
             git config --global core.symlinks "true"
