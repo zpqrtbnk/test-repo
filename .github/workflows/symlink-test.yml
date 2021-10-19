@@ -24,10 +24,11 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       # symlink
-      - name: Symlink
+      - name: Symlink Bash
         shell: bash
         run: |
             if ! [ -L bang ]; then
+                # however, this does *not* create a symlink, but a directory
                 ln -s duh bang
                 ls -l
                 git config --global user.email "stephan@REDACTED.com"
@@ -36,6 +37,19 @@ jobs:
                 git add bang
                 git commit -m "created symlink"
             fi
+
+      # symlink via pwsh
+      - name: Symlink Pwsh
+        shell: pwsh
+        run: |
+          if (! (test-path bang)) {
+            New-Item -ItemType SymbolicLink -Name bang -Target duh
+            git config --global user.email "stephan@REDACTED.com"
+            git config --global user.name "Stephan"
+            git config --global core.symlinks "true"
+            git add bang
+            git commit -m "created symlink"
+          }
 
       # push changes back
       - name: Push
