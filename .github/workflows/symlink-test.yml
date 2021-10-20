@@ -69,12 +69,13 @@ jobs:
       - name: Symlink Git
         shell: bash
         run: |
-          if [ -f "bang" ]; then rm -f bang; fi
-          git update-index --add --cacheinfo 120000 "$(echo "duh" | git hash-object -w --stdin)" "bang"
-          git config --global user.email "stephan@REDACTED.com"
-          git config --global user.name "Stephan"
-          git add bang
-          git commit -m "created symlink"
+          if ! [ -f "bang" ]; then 
+            git update-index --add --cacheinfo 120000 "$(echo "duh" | git hash-object -w --stdin)" "bang"
+            git config --global user.email "stephan@REDACTED.com"
+            git config --global user.name "Stephan"
+            git add bang
+            git commit -m "created symlink"
+          fi
 
       # push changes back
       - name: Push
