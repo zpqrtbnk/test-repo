@@ -73,7 +73,6 @@ jobs:
             git update-index --add --cacheinfo 120000 "$(echo "duh" | git hash-object -w --stdin)" "bang"
             git config --global user.email "stephan@REDACTED.com"
             git config --global user.name "Stephan"
-            git add bang
             git commit -m "created symlink"
           fi
 
