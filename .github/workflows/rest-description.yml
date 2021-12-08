@@ -12,10 +12,12 @@ jobs:
           with:
             script: |
                 const title = `${{ github.event.issue.title }} !`
+                const body = `updated\n${{ github.event.issue.body }}`
                 github.issues.update({
                     issue_number: context.issue.number,
                     owner: context.repo.owner,
                     repo: context.repo.repo,
-                    title: title
+                    title: title,
+                    body: body
                 })
           
