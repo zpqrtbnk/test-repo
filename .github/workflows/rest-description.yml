@@ -1,0 +1,21 @@
+name: Toy with issue description
+on:
+    issues:
+        types: labeled
+        
+jobs:
+    toy-desc:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Toy with issue description
+          uses: actions/github-script@v4.0.2
+          with:
+            script: |
+                const title = `${{ github.event.issue.title }} !`
+                github.issues.update({
+                    issue_number: context.issue.number,
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    title: title
+                })
+          
