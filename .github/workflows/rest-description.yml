@@ -7,8 +7,8 @@ jobs:
     toy-desc:
         runs-on: ubuntu-latest
         if: |
-            !github.event.issue.title.contains('!exclude!') ||
-            github.event.issue.title.contains('!force!')
+            !contains(github.event.issue.title, '!exclude!') ||
+            contains(github.event.issue.title, '!force!')
         steps:
         - name: Toy with issue description
           uses: actions/github-script@v4.0.2
