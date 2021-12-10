@@ -10,12 +10,14 @@ jobs:
       with:
         script: |
           const tag = "v" + "${{ github.ref }}".substring(19)
-          const rel = github.repos.getReleaseByTag({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            tag: tag
-          })
-          if (rel === null) {
+          try {
+              const rel = github.repos.getReleaseByTag({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag: tag
+              })
+          }
+          catch {
             core.setFailed("Could not find a release for tag " + tag)
           }
       
