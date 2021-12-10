@@ -6,11 +6,12 @@ jobs:
     if: startsWith(github.ref, 'refs/heads/release/')
     steps:
     
-    # this *does* show the v7.7.10 release in the list
     - name: Somebody Kill Me
       run: |
+        # this *does* show the v7.7.10 release in the list
         echo "ALL RELEASES"
         curl -H "Accept: application/vnd.github.v3+json" -u "zpqrtbnk:${{secrets.MY_GITHUB_TOKEN_TESTREPO}}" https://api.github.com/repos/zpqrtbnk/test-repo/releases
+        # this ... fails
         echo "TAG RELEASE"
         curl -H "Accept: application/vnd.github.v3+json" -u "zpqrtbnk:${{secrets.MY_GITHUB_TOKEN_TESTREPO}}" https://api.github.com/repos/zpqrtbnk/test-repo/releases/tags/v7.7.10
     
@@ -18,27 +19,37 @@ jobs:
       uses: actions/github-script@v4
       with:
       
-        # fuck! not seeing the draft release
-        # curl -i -u zpqrtbnk https://api.github.com/users/zpqrtbnk
-        # with my test-repo-curl token
-        # raises the x-ratelimit-limit to 5000/hr ok
-        # and, I can see the draft release
-        # so, I need a special token?
-      
-        #github-token: ${{ secrets.GITHUB_TOKEN }} # needed to see draft releases
+        # needed to see draft releases when getting all releases?
         github-token: ${{ secrets.MY_GITHUB_TOKEN_TESTREPO }}
         script: |
           const ver = "${{ github.ref }}".substring(19)
           const tag = "v" + ver
           var rel
+          var rels
           try {
-            rel = await github.repos.getReleaseByTag({
+            rels = await github.repos.listReleases({
               owner: context.repo.owner,
-              repo: context.repo.repo,
-              tag: tag
+              repo: context.repo.repo
             })
+            //rel = await github.repos.getReleaseByTag({
+            //  owner: context.repo.owner,
+            //  repo: context.repo.repo,
+            //  tag: tag
+            //})
           }
           catch (error) {
+            core.setFailed(`Could not find a release for tag ${tag}.`)
+            return
+          }
+          rel = null
+          for (var r in rels) {
+            console.log(r)
+            if (r.tagName === tag) {
+                rel = r
+                break
+            }
+          }
+          if (rel === null) {
             core.setFailed(`Could not find a release for tag ${tag}.`)
             return
           }
