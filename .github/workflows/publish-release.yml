@@ -9,17 +9,23 @@ jobs:
       uses: actions/github-script@v4
       with:
         script: |
+          console.log('X0')
           const tag = "v" + "${{ github.ref }}".substring(19)
           try {
+              console.log('X1')
               const rel = github.repos.getReleaseByTag({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 tag: tag
               })
+              console.log('X2')
           }
           catch (error) {
+            console.log('X3')
             core.setFailed("Could not find a release for tag " + tag)
+            console.log('X4')
           }
+          console.log('X5')
       
     - name: Checkout
       uses: actions/checkout@v2
