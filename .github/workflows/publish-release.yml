@@ -11,8 +11,9 @@ jobs:
         script: |
           const ver = "${{ github.ref }}".substring(19)
           const tag = "v" + ver
+          var rel
           try {
-            const rel = await github.repos.getReleaseByTag({
+            rel = await github.repos.getReleaseByTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag: tag
