@@ -6,7 +6,7 @@ jobs:
     if: startsWith(github.ref, 'refs/heads/release/')
     steps:
     - name: Validate the release
-      uses: github-script@v4
+      uses: actions/github-script@v4
       with:
         script: |
           const tag = "v" + github.ref.substring(19)
