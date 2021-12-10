@@ -16,9 +16,11 @@ jobs:
             repo: context.repo.repo,
             tag: tag
           })
+          console.log('X1')
           if (rel === null) {
             core.setFailed("Could not find a release for tag " + tag)
           }
+          console.log('X2')
       
     - name: Checkout
       uses: actions/checkout@v2
