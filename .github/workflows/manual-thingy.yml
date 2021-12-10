@@ -11,7 +11,8 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Do Something
       run: |
-        version="${${{ github.ref }}:19}" # trim starting 'refs/heads/release/' (19 chars)
+        version="${{ github.ref }}"
+        version="${version:19}" # trim starting 'refs/heads/release/' (19 chars)
         echo "Tag ref ${{ github.ref }} as v$version"
         git tag v$version
         git config user.email "github-actions@zpqrtbnk.net"
