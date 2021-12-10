@@ -1,4 +1,4 @@
-name: Publish a release
+name: Publish Release
 on: workflow_dispatch
 jobs:
   job:
@@ -36,7 +36,7 @@ jobs:
         git push :${{ github.ref }}
 
     - name: Publish the release
-      uses: github-script@v4
+      uses: action/github-script@v4
       with:
         script: |
           const tag = "v" + github.ref.substring(19)
