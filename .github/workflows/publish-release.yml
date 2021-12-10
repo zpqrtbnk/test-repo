@@ -8,7 +8,16 @@ jobs:
     - name: Validate the release
       uses: actions/github-script@v4
       with:
-        github-token: ${{secrets.GITHUB_TOKEN}} # needed to see draft releases
+      
+        # fuck! not seeing the draft release
+        # curl -i -u zpqrtbnk https://api.github.com/users/zpqrtbnk
+        # with my test-repo-curl token
+        # raises the x-ratelimit-limit to 5000/hr ok
+        # and, I can see the draft release
+        # so, I need a special token?
+      
+        #github-token: ${{ secrets.GITHUB_TOKEN }} # needed to see draft releases
+        github-token: ${{ secrets.MY_GITHUB_TOKEN_TESTREPO }}
         script: |
           const ver = "${{ github.ref }}".substring(19)
           const tag = "v" + ver
