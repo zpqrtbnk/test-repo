@@ -19,9 +19,23 @@ jobs:
             })
           }
           catch (error) {
-            core.setFailed("Could not find a release for tag '" + tag + "'.")
+            core.setFailed(`Could not find a release for tag '${tag}'.`)
           }
-          # VERIFY THAT THE TAG DOES NOT ALREADY EXIST?
+          if (rel.draft) {
+            core.setFailed(`Release for tag '${tag}' is already published.`)
+          }
+          try {
+            const ref = await github.git.getRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'tags/' + tag
+            })
+            core.setFailed(`Tag '${tag}' already exists.`)
+          }
+          catch (error) {
+            // this is expected
+          }
+          // everything is OK
       
     - name: Checkout
       uses: actions/checkout@v2
@@ -42,7 +56,7 @@ jobs:
         echo "Tag branch $branch as v$version"
         git tag v$version
         git push --tags
-        git push :$branch
+        #git push :$branch
 
     - name: Publish the release
       uses: actions/github-script@v4
