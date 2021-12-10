@@ -11,16 +11,21 @@ jobs:
         script: |
           console.log('X0')
           const tag = "v" + "${{ github.ref }}".substring(19)
-          const rel = await github.repos.getReleaseByTag({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            tag: tag
-          })
-          console.log('X1')
-          if (rel === null) {
-            core.setFailed("Could not find a release for tag " + tag)
+          try {
+            const rel = await github.repos.getReleaseByTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag: tag
+            })
+            console.log('X1')
+            if (rel === null) {
+              core.setFailed("Could not find a release for tag " + tag)
+            }
+            console.log('X2')
           }
-          console.log('X2')
+          catch (error) {
+            console.log('X3')
+          }
       
     - name: Checkout
       uses: actions/checkout@v2
