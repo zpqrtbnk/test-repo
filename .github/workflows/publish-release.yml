@@ -8,22 +8,24 @@ jobs:
     - name: Validate the release
       uses: actions/github-script@v4
       with:
+        github-token: ${{secrets.GITHUB_TOKEN}} # needed to see draft releases
         script: |
           const ver = "${{ github.ref }}".substring(19)
           const tag = "v" + ver
+          var rel
           try {
-            const rel = await github.repos.getReleaseByTag({
+            rel = await github.repos.getReleaseByTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag: tag
             })
           }
           catch (error) {
-            core.setFailed(`Could not find a release for tag '${tag}'.`)
+            core.setFailed(`Could not find a release for tag ${tag}.`)
             return
           }
-          if (rel.draft) {
-            core.setFailed(`Release for tag '${tag}' is already published.`)
+          if (!rel.draft) {
+            core.setFailed(`Release for tag ${tag} is already published.`)
             return
           }
           try {
@@ -32,14 +34,14 @@ jobs:
               repo: context.repo.repo,
               ref: 'tags/' + tag
             })
-            core.setFailed(`Tag '${tag}' already exists.`)
+            core.setFailed(`Tag ${tag} already exists.`)
             return
           }
           catch (error) {
             // this is expected
           }
           // everything is OK
-      
+          
     - name: Checkout
       uses: actions/checkout@v2
       with:
