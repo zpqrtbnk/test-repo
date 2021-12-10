@@ -20,11 +20,11 @@ jobs:
             })
           }
           catch (error) {
-            core.setFailed(`Could not find a release for tag '${tag}'.`)
+            core.setFailed(`Could not find a release for tag ${tag}.`)
             return
           }
-          if (rel.draft) {
-            core.setFailed(`Release for tag '${tag}' is already published.`)
+          if (!rel.draft) {
+            core.setFailed(`Release for tag ${tag} is already published.`)
             return
           }
           try {
@@ -33,7 +33,7 @@ jobs:
               repo: context.repo.repo,
               ref: 'tags/' + tag
             })
-            core.setFailed(`Tag '${tag}' already exists.`)
+            core.setFailed(`Tag ${tag} already exists.`)
             return
           }
           catch (error) {
