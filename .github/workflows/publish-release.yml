@@ -9,7 +9,6 @@ jobs:
       uses: actions/github-script@v4
       with:
         script: |
-          console.log('X0')
           const tag = "v" + "${{ github.ref }}".substring(19)
           try {
             const rel = await github.repos.getReleaseByTag({
@@ -17,14 +16,9 @@ jobs:
               repo: context.repo.repo,
               tag: tag
             })
-            console.log('X1')
-            if (rel === null) {
-              core.setFailed("Could not find a release for tag " + tag)
-            }
-            console.log('X2')
           }
           catch (error) {
-            console.log('X3')
+            core.setFailed("Could not find a release for tag " + tag)
           }
       
     - name: Checkout
