@@ -19,8 +19,9 @@ jobs:
             })
           }
           catch (error) {
-            core.setFailed("Could not find a release for version " + ver)
+            core.setFailed("Could not find a release for tag '" + tag + "'.")
           }
+          # VERIFY THAT THE TAG DOES NOT ALREADY EXIST?
       
     - name: Checkout
       uses: actions/checkout@v2
