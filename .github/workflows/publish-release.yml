@@ -36,7 +36,13 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo
             })
+            console.log('RELS:')
+            console.log(rels)
+            console.log('DATA:')
+            console.log(rels.data)
             for (var r in rels.data) {
+              console.log('REL:')
+              console.log(r)
               if (r.tag_name === tag) {
                   rel = r
                   break
