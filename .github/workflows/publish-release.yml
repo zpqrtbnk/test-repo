@@ -36,12 +36,9 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo
             })
-            console.log('RELS:')
-            console.log(rels)
-            console.log('DATA:')
-            console.log(rels.data)
-            for (var r in rels.data) {
-              console.log('REL:')
+            console.log(rels.data) // is [ { ... }, { ... } ]
+            for (const r of rels.data) {
+              console.log('REL:') // is 0, 1 MEH?!
               console.log(r)
               if (r.tag_name === tag) {
                   rel = r
