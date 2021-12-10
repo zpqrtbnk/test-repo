@@ -3,7 +3,7 @@ on: workflow_dispatch
 jobs:
   job:
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'release/')
+    #if: startsWith(github.ref, 'release/')
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -12,7 +12,9 @@ jobs:
     - name: Do Something
       run: |
         version="${${{ github.ref }}:8}" # trim starting 'release/' (8 chars)
-        git tag v$version
-        git config user.email "github-actions@zpqrtbnk.net"
-        git config user.name "GitHub Actions (Do Something)"
-        git push --tags
+        echo "ref=${{ github.ref }}"
+        echo "version=$version"
+        #git tag v$version
+        #git config user.email "github-actions@zpqrtbnk.net"
+        #git config user.name "GitHub Actions (Do Something)"
+        #git push --tags
