@@ -17,7 +17,7 @@ jobs:
                 tag: tag
               })
           }
-          catch {
+          catch (error) {
             core.setFailed("Could not find a release for tag " + tag)
           }
       
