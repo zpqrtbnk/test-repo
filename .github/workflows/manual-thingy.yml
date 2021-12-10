@@ -1,15 +1,30 @@
-name: Manually Do Something
+name: Publish a release
 on: workflow_dispatch
 jobs:
   job:
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/heads/release/')
     steps:
+    - name: Validate the release
+      uses: github-script@v4
+      with:
+        script: |
+          const tag = "v" + github.ref.substring(19)
+          const rel = github.repos.getReleaseByTag({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            tag: tag
+          })
+          if (rel === null) {
+            core.setFailed("Could not find a release for tag " + tag)
+          }
+      
     - name: Checkout
       uses: actions/checkout@v2
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Do Something
+        
+    - name: Finalize the release
       run: |
         version="${{ github.ref }}"
         version="${version:19}" # trim starting 'refs/heads/release/' (19 chars)
@@ -18,3 +33,21 @@ jobs:
         git config user.email "github-actions@zpqrtbnk.net"
         git config user.name "GitHub Actions (Do Something)"
         git push --tags
+        git push :${{ github.ref }}
+
+    - name: Publish the release
+      uses: github-script@v4
+      with:
+        script: |
+          const tag = "v" + github.ref.substring(19)
+          const rel = github.repos.getReleaseByTag({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            tag: tag
+          })
+          github.repos.updateRelease({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            release_id: rel.id,
+            draft: false
+          })
