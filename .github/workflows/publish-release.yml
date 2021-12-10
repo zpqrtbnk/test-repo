@@ -9,7 +9,8 @@ jobs:
       uses: actions/github-script@v4
       with:
         script: |
-          const tag = "v" + "${{ github.ref }}".substring(19)
+          const ver = "${{ github.ref }}".substring(19)
+          const tag = "v" + ver
           try {
             const rel = await github.repos.getReleaseByTag({
               owner: context.repo.owner,
@@ -18,7 +19,7 @@ jobs:
             })
           }
           catch (error) {
-            core.setFailed("Could not find a release for tag " + tag)
+            core.setFailed("Could not find a release for version " + ver)
           }
       
     - name: Checkout
@@ -26,22 +27,28 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         
+    - name: Configure repository
+      shell: bash
+      run: |
+        git config user.email "github-actions@hazelcast.com"
+        git config user.name "GitHub Actions (Build Release)"
+
     - name: Finalize the release
       run: |
-        version="${{ github.ref }}"
-        version="${version:19}" # trim starting 'refs/heads/release/' (19 chars)
-        echo "Tag ref ${{ github.ref }} as v$version"
+        ref="${{ github.ref }}"
+        branch="${ref:11}" # trim starting 'refs/heads/' (11 chars)
+        version="${ref:19}" # trim starting 'refs/heads/release/' (19 chars)
+        echo "Tag branch $branch as v$version"
         git tag v$version
-        git config user.email "github-actions@zpqrtbnk.net"
-        git config user.name "GitHub Actions (Do Something)"
         git push --tags
-        git push :${{ github.ref }}
+        git push :$branch
 
     - name: Publish the release
       uses: actions/github-script@v4
       with:
         script: |
-          const tag = "v" + "${{ github.ref }}".substring(19)
+          const ver = "${{ github.ref }}".substring(19)
+          const tag = "v" + ver
           const rel = await github.repos.getReleaseByTag({
             owner: context.repo.owner,
             repo: context.repo.repo,
