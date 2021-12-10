@@ -20,9 +20,11 @@ jobs:
           }
           catch (error) {
             core.setFailed(`Could not find a release for tag '${tag}'.`)
+            return
           }
           if (rel.draft) {
             core.setFailed(`Release for tag '${tag}' is already published.`)
+            return
           }
           try {
             const ref = await github.git.getRef({
@@ -31,6 +33,7 @@ jobs:
               ref: 'tags/' + tag
             })
             core.setFailed(`Tag '${tag}' already exists.`)
+            return
           }
           catch (error) {
             // this is expected
