@@ -5,6 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/heads/release/')
     steps:
+    
+    - name: Somebody Kill Me
+      run: |
+        curl -H "Accept: application/vnd.github.v3+json" -u "zpqrtbnk:${{secrets.MY_GITHUB_TOKEN_TESTREPO}}" https://api.github.com/repos/zpqrtbnk/test-repo/releases
+    
     - name: Validate the release
       uses: actions/github-script@v4
       with:
