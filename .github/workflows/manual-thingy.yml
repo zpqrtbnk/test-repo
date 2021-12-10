@@ -3,7 +3,7 @@ on: workflow_dispatch
 jobs:
   job:
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, "release/")
+    if: startsWith(github.ref, 'release/')
     steps:
     - name: Checkout
       uses: actions/checkout@v2
