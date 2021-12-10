@@ -42,7 +42,10 @@ jobs:
             return
           }
           rel = null
+          console.log('RELS:')
+          console.log(rels)
           for (var r in rels) {
+            console.log('REL:')
             console.log(r)
             if (r.tagName === tag) {
                 rel = r
