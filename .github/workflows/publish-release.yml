@@ -6,40 +6,24 @@ jobs:
     if: startsWith(github.ref, 'refs/heads/release/')
     steps:
     
-    - name: Somebody Kill Me
-      run: |
-        # this *does* show the v7.7.10 release in the list
-        echo "ALL RELEASES"
-        curl -H "Accept: application/vnd.github.v3+json" -u "zpqrtbnk:${{secrets.MY_GITHUB_TOKEN_TESTREPO}}" https://api.github.com/repos/zpqrtbnk/test-repo/releases
-        # this ... fails
-        echo "TAG RELEASE"
-        curl -H "Accept: application/vnd.github.v3+json" -u "zpqrtbnk:${{secrets.MY_GITHUB_TOKEN_TESTREPO}}" https://api.github.com/repos/zpqrtbnk/test-repo/releases/tags/v7.7.10
-    
     - name: Validate the release
       uses: actions/github-script@v4
       with:
       
-        # needed to see draft releases when getting all releases?
+        # token needed to see draft releases when getting all releases
         github-token: ${{ secrets.MY_GITHUB_TOKEN_TESTREPO }}
         script: |
           const ver = "${{ github.ref }}".substring(19)
           const tag = "v" + ver
           var rel = null
           try {
-            // this does *not* return draft releases
-            //rel = await github.repos.getReleaseByTag({
-            //  owner: context.repo.owner,
-            //  repo: context.repo.repo,
-            //  tag: tag
-            //})
+            // this does *not* return draft releases, so we have to list them
+            //rel = await github.repos.getReleaseByTag({ ... })
             const rels = await github.repos.listReleases({
               owner: context.repo.owner,
               repo: context.repo.repo
             })
-            console.log(rels.data) // is [ { ... }, { ... } ]
             for (const r of rels.data) {
-              console.log('REL:') // is 0, 1 MEH?!
-              console.log(r)
               if (r.tag_name === tag) {
                   rel = r
                   break
@@ -99,12 +83,19 @@ jobs:
         script: |
           const ver = "${{ github.ref }}".substring(19)
           const tag = "v" + ver
-          // this is going to fail
-          const rel = await github.repos.getReleaseByTag({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            tag: tag
-          })
+          var rel = null
+          // no, see above
+          //const rel = await github.repos.getReleaseByTag({ ... })
+          const rels = await github.repos.listReleases({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            })
+            for (const r of rels.data) {
+              if (r.tag_name === tag) {
+                  rel = r
+                  break
+              }
+            }
           await github.repos.updateRelease({
             owner: context.repo.owner,
             repo: context.repo.repo,
