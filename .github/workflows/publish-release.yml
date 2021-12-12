@@ -1,13 +1,12 @@
 name: Publish 
 
-on:
+on: 
   workflow_dispatch:
     inputs:
-      name:
-        description: "name"
+      really:
+        description: "This is really going to release. Enter \'yolo\' to confirm."
         required: true
-        default: "world"
-
+        default: ""
         
 jobs:
   job:
