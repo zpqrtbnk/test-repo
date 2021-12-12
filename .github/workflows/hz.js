@@ -9,7 +9,7 @@ module.exports = function (github, context) {
     function noop ( ) { }
 
     // this *is* exported
-    module.getReleaseByTag = function (tag_name) {
+    module.getReleaseByTag = async function (tag_name) {
         var rel = null
         try {
             // this does *not* return draft releases, so we have to list them
