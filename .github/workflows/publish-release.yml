@@ -1,11 +1,12 @@
-name: Publish Release
+name: Publish 
+
 on: 
   workflow_dispatch:
     inputs:
       confirm:
-        description: 'This is really going to release. Are you sure? Type \'yes\'.'
+        description: 'This is really going to release. Enter \'yolo\' to confirm.'
         required: true
-        default: ''
+        
 jobs:
   job:
     runs-on: ubuntu-latest
@@ -13,7 +14,7 @@ jobs:
     steps:
     
     - name: Confirm
-      if: ${{ github.event.inputs.confirm }} != 'yes'
+      if: ${{ github.event.inputs.confirm }} != 'yolo'
       uses: actions/github-script@v4
       with:
         script: |
