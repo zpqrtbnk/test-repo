@@ -87,12 +87,12 @@ jobs:
         script: |
           const hz = require("./.github/workflows/hz.js")(github, context)
           const ref = "${{ github.ref }}"
-          const tag = await hz.getRefReleaseTag(ref)
+          const tag = hz.getRefReleaseTag(ref)
           if (tag === null) {
             core.setFailed(`Invalid reference ${ref} is not release/<version>.`)
             return
           }
-          var rel = hz.getReleaseByTag(tag)
+          var rel = await hz.getReleaseByTag(tag)
           await github.repos.updateRelease({
             owner: context.repo.owner,
             repo: context.repo.repo,
