@@ -16,11 +16,12 @@ jobs:
     steps:
     
     - name: Confirm
-      if: ${{ github.event.inputs.confirm }} != "yolo"
       uses: actions/github-script@v4
       with:
         script: |
-          core.setFailed(`Not confirmed (confirm = '${{ github.event.inputs.confirm }}').`)
+          if ("${{ github.event.inputs.confirm }}" != "yolo") {
+            core.setFailed(`Not confirmed (confirm = '${{ github.event.inputs.confirm }}').`)
+          }
     
     - name: Validate the release
       uses: actions/github-script@v4
