@@ -42,7 +42,7 @@ jobs:
             core.setFailed(`Invalid reference ${ref} is not release/<version>.`)
             return
           }
-          var rel = hz.getReleaseByTag(tag)
+          var rel = await hz.getReleaseByTag(tag)
           if (rel === null) {
             core.setFailed(`Could not find a release for tag ${tag}.`)
             return
@@ -87,7 +87,7 @@ jobs:
         script: |
           const hz = require("./.github/workflows/hz.js")(github, context)
           const ref = "${{ github.ref }}"
-          const tag = hz.getRefReleaseTag(ref)
+          const tag = await hz.getRefReleaseTag(ref)
           if (tag === null) {
             core.setFailed(`Invalid reference ${ref} is not release/<version>.`)
             return
