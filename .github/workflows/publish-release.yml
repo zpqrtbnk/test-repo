@@ -1,6 +1,6 @@
 name: Publish Release
 on: workflow_dispatch
-  input:
+  inputs:
     confirm:
       description: 'This is really going to release. Are you sure?'
       required: true
