@@ -6,6 +6,7 @@ on:
       really:
         description: 'This is really going to release. Enter \'yolo\' to confirm.'
         required: true
+        default: ''
         
 jobs:
   job:
