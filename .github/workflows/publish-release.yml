@@ -1,10 +1,11 @@
 name: Publish Release
-on: workflow_dispatch
-  inputs:
-    confirm:
-      description: 'This is really going to release. Are you sure? Type \'yes\'.'
-      required: true
-      default: ''
+on: 
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'This is really going to release. Are you sure? Type \'yes\'.'
+        required: true
+        default: ''
 jobs:
   job:
     runs-on: ubuntu-latest
