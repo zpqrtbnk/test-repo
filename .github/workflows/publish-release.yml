@@ -1,10 +1,22 @@
 name: Publish Release
 on: workflow_dispatch
+  input:
+    confirm:
+      description: 'This is really going to release. Are you sure?'
+      required: true
+      default: false
 jobs:
   job:
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/heads/release/')
     steps:
+    
+    - name: Confirm
+      if: ${{ github.event.inputs.confirm }} == false
+      uses: actions/github-script@v4
+      with:
+        script: |
+          core.setFailed(`Not confirmed (confirm = '${{ github.event.inputs.confirm }}').`)
     
     - name: Validate the release
       uses: actions/github-script@v4
@@ -13,27 +25,14 @@ jobs:
         # token needed to see draft releases when getting all releases
         github-token: ${{ secrets.MY_GITHUB_TOKEN_TESTREPO }}
         script: |
-          const ver = "${{ github.ref }}".substring(19)
-          const tag = "v" + ver
-          var rel = null
-          try {
-            // this does *not* return draft releases, so we have to list them
-            //rel = await github.repos.getReleaseByTag({ ... })
-            const rels = await github.repos.listReleases({
-              owner: context.repo.owner,
-              repo: context.repo.repo
-            })
-            for (const r of rels.data) {
-              if (r.tag_name === tag) {
-                  rel = r
-                  break
-              }
-            }
-          }
-          catch (error) {
-            core.setFailed(`Could not find a release for tag ${tag}.`)
+          const hz = require("hz.js")(github, context)
+          const ref = "${{ github.ref }}"
+          const tag = hz.getRefReleaseTag(ref)
+          if (tag === null) {
+            core.setFailed(`Invalid reference ${ref} is not release/<version>.`)
             return
           }
+          var rel = hz.getReleaseByTag(tag)
           if (rel === null) {
             core.setFailed(`Could not find a release for tag ${tag}.`)
             return
@@ -81,21 +80,14 @@ jobs:
       uses: actions/github-script@v4
       with:
         script: |
-          const ver = "${{ github.ref }}".substring(19)
-          const tag = "v" + ver
-          var rel = null
-          // no, see above
-          //const rel = await github.repos.getReleaseByTag({ ... })
-          const rels = await github.repos.listReleases({
-              owner: context.repo.owner,
-              repo: context.repo.repo
-            })
-            for (const r of rels.data) {
-              if (r.tag_name === tag) {
-                  rel = r
-                  break
-              }
-            }
+          const hz = require("hz.js")(github, context)
+          const ref = "${{ github.ref }}"
+          const tag = hz.getRefReleaseTag(ref)
+          if (tag === null) {
+            core.setFailed(`Invalid reference ${ref} is not release/<version>.`)
+            return
+          }
+          var rel = hz.getReleaseByTag(tag)
           await github.repos.updateRelease({
             owner: context.repo.owner,
             repo: context.repo.repo,
