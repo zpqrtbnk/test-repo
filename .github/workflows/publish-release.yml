@@ -16,7 +16,7 @@ jobs:
     steps:
     
     - name: Confirm
-      if: ${{ github.event.inputs.confirm }} != 'yolo'
+      if: ${{ github.event.inputs.confirm }} != "yolo"
       uses: actions/github-script@v4
       with:
         script: |
