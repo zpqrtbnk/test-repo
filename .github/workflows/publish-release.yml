@@ -4,8 +4,8 @@ name: Publish
 on: 
   workflow_dispatch:
     inputs:
-      really:
-        description: "This is really going to release. Enter \'yolo\' to confirm."
+      confirm:
+        description: "This is really going to release. Enter \'yolo\' to confirm that you really want to do it."
         required: true
         default: ""
         
@@ -16,7 +16,7 @@ jobs:
     steps:
     
     - name: Confirm
-      if: ${{ github.event.inputs.really }} != 'yolo'
+      if: ${{ github.event.inputs.confirm }} != 'yolo'
       uses: actions/github-script@v4
       with:
         script: |
