@@ -13,10 +13,8 @@ on:
 
 # FIXME how can I prevent a user from creating a PR and stealing my token?
 # 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    
-# curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token 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" https://api.github.com/projects/1/columns?owner=zpqrtbnk&repo=test-repo
-
-# curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token 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" https://api.github.com/projects/1/columns?owner=zpqrtbnk-alt&repo=test-repo-alt
-# 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    
+# curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ghp_..." https://api.github.com/projects/1/columns?owner=zpqrtbnk&repo=test-repo
+# curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ghp_..." https://api.github.com/projects/1/columns?owner=zpqrtbnk-alt&repo=test-repo-alt
     
 jobs:
   assign:
