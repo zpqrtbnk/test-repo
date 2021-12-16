@@ -25,6 +25,8 @@ jobs:
 
             // find the column
             const columns = github.projects.listColumns({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
                 project_id: project_id
             })
             var column = null
