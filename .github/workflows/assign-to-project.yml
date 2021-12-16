@@ -42,10 +42,12 @@ jobs:
             }
             
             // find the project
+            console.log('find project...')
             const projects = await github.projects.listForRepo({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
             })
+            console.log(`retrieved ${} projects.`)
             const project = firstOrDefault(projects, (x) => x.name === project_name)
             //var project = null
             //for (const p of projects) {
@@ -56,6 +58,9 @@ jobs:
             if (project === null) {
                 core.setFailed(`Failed to find project "${project_name}".`)
                 return
+            }
+            else {
+                console.log(`project id: ${project.id}`)
             }
 
             // find the column
