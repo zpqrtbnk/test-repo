@@ -74,15 +74,16 @@ jobs:
             }
             
             console.log('determine content type...')
+            const event_name = context.eventName
             var content_type = null
-            if (github.event_name === 'issues') {
+            if (event_name === 'issues') {
                 content_type = 'Issue'
             }
-            if (github.event_name === 'pull_request') {
+            if (event_name === 'pull_request') {
                 content_type = 'PullRequest'
             }
             if (content_type === null) {
-                core.setFailed(`Unexpected event name "${github.event_name}".`)
+                core.setFailed(`Unexpected event name "${event_name}".`)
                 return
             }
             else {
