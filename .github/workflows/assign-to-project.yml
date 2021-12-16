@@ -7,6 +7,11 @@ on:
     
 # github-script: https://github.com/actions/github-script
 # -> points to github rest (octokit) reference doc
+
+# github PAT: https://github.com/settings/tokens
+# must have full repo access
+
+# FIXME how can I prevent a user from creating a PR and stealing my token?
     
 jobs:
   assign:
