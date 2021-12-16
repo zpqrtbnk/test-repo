@@ -90,12 +90,27 @@ jobs:
                 console.log(`content type: ${content_type}.`)
             }
             
+            // get the issue/pr
+            console.log('get the issue/pr...)
+            const item = await github.issues.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number
+            })
+            if (item === null) {
+                core.setFailed(`Failed to get issue ${context.issue.number}.`)
+                return
+            }
+            else {
+                console.log(`issue id: ${item.id}.`)
+            }
+                        
             console.log('create the card...')
-            console.log(`in column ${column.id} for item ${context.issue.number} of type ${content_type}`)
+            console.log(`in column ${column.id} for item ${item.id} of type ${content_type}`)
             await github.projects.createCard({
                 column_id: column.id,
                 //note:,
-                content_id: context.issue.number,
+                content_id: item.id,
                 content_type: content_type
             })
             console.log('created')
