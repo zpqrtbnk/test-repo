@@ -1,0 +1,65 @@
+name: Auto Assign PRs to Project
+on:
+  issues:
+    types: [ opened ]
+  pull_requests:
+    types: [ opened ]
+    
+# github-script: https://github.com/actions/github-script
+# -> points to github rest (octokit) reference doc
+    
+jobs:
+  assign:
+    runs-on: ubuntu-latest
+    name: Assign
+    steps:
+    - name: Assign
+      uses: actions/github-script@v4
+      script: |
+        //const project_id = 2
+        //const column_name = 'Drafting'
+        
+        const project_id = 1
+        const column_name = 'To do'
+
+        // find the column
+        const columns = github.projects.listColumns({
+            project_id: project_id
+        })
+        var column = null
+        for (const c of columns) {
+            if (c.name === column_name) {
+                column = c
+            }
+        }
+        if (c === null) {
+            core.setFailed(`Failed to find column "${column_name}" in project ${project_id}.`)
+            return
+        }
+        
+        var content_type = null
+        if (github.event.name === 'issue') {
+            content_type = 'Issue'
+        }
+        if (github.event.name === 'pull_request') {
+            content_type = 'PullRequest'
+        }
+        if (content_type === null) {
+            core.setFailed(`Unexpected event name "${github.event.name}".`)
+        }
+        
+        await github.projects.createCard({
+            column_id: column.id,
+            //note:,
+            content_id: context.issue.number,
+            content_type: content_type
+        })
+        
+        /*
+        await github.issues.update({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            
+        })
+        */
