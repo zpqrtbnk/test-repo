@@ -45,9 +45,10 @@ jobs:
             console.log('find project...')
             const projects = await github.projects.listForRepo({
                 owner: context.repo.owner,
-                repo: context.repo.repo,
+                repo: context.repo.repo
             })
-            console.log(`retrieved ${} projects.`)
+            console.log(projects)
+            console.log(`retrieved ${projects.length} projects.`)
             const project = firstOrDefault(projects, (x) => x.name === project_name)
             //var project = null
             //for (const p of projects) {
