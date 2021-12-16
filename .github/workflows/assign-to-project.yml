@@ -101,17 +101,16 @@ jobs:
                 core.setFailed(`Failed to get issue ${context.issue.number}.`)
                 return
             }
-            else {
-                console.log(`issue id: ${item.id}.`)
+            else {                
+                console.log(`issue id: ${item.data.id}.`)
             }
-            console.log(item) // WTF is the id?
                         
             console.log('create the card...')
-            console.log(`in column ${column.id} for item ${item.id} of type ${content_type}`)
+            console.log(`in column ${column.id} for item ${item.data.id} of type ${content_type}`)
             await github.projects.createCard({
                 column_id: column.id,
                 //note:,
-                content_id: item.id,
+                content_id: item.data.id,
                 content_type: content_type
             })
             console.log('created')
