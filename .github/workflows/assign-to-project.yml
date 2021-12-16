@@ -34,18 +34,28 @@ jobs:
             const project_name = 'test-project'
             const column_name = 'To do'
             
+            function firstOrDefault(items, predicate) {
+                for (const item of items) {
+                    if (predicate(item)) {
+                        return item
+                    }
+                }
+                return null
+            }
+            
             // find the project
             const projects = await github.projects.listForRepo({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
             })
-            var project = null
-            for (const p of projects) {
-                if (p.name === project_name) {
-                    project = p
-                }
-            }
-            if (p === null) {
+            const project = firstOrDefault(projects, (x) => x.name === project_name)
+            //var project = null
+            //for (const p of projects) {
+            //    if (p.name === project_name) {
+            //        project = p
+            //    }
+            //}
+            if (project === null) {
                 core.setFailed(`Failed to find project "${project_name}".`)
                 return
             }
@@ -60,7 +70,7 @@ jobs:
                     column = c
                 }
             }
-            if (c === null) {
+            if (column === null) {
                 core.setFailed(`Failed to find column "${column_name}" in project ${project.name}.`)
                 return
             }
