@@ -54,7 +54,7 @@ jobs:
                 return
             }
             else {
-                console.log(`project id: ${project.id}`)
+                console.log(`project id: ${project.id}.`)
             }
 
             // find the column
@@ -70,26 +70,33 @@ jobs:
                 return
             }
             else {
-                console.log(`column id: ${column.id}`)
+                console.log(`column id: ${column.id}.`)
             }
             
+            console.log('determine content type...')
             var content_type = null
-            if (github.event.name === 'issue') {
+            if (github.event_name === 'issues') {
                 content_type = 'Issue'
             }
-            if (github.event.name === 'pull_request') {
+            if (github.event_name === 'pull_request') {
                 content_type = 'PullRequest'
             }
             if (content_type === null) {
-                core.setFailed(`Unexpected event name "${github.event.name}".`)
+                core.setFailed(`Unexpected event name "${github.event_name}".`)
+                return
+            }
+            else {
+                console.log(`content type: ${content_type}.`)
             }
             
+            console.log('create the card...')
             await github.projects.createCard({
                 column_id: column.id,
                 //note:,
                 content_id: context.issue.number,
                 content_type: content_type
             })
+            console.log('created')
             
             /*
             await github.issues.update({
