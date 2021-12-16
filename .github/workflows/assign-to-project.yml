@@ -30,7 +30,7 @@ jobs:
             const column_name = 'To do'
 
             // find the column
-            const columns = github.projects.listColumns({
+            const columns = await github.projects.listColumns({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 project_id: project_id
