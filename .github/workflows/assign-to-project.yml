@@ -62,7 +62,6 @@ jobs:
             const columns = await github.projects.listColumns({
                 project_id: project.id
             })
-            console.log(columns)
             console.log(`retrieved ${columns.data.length} columns.`)
             const column = firstOrDefault(columns.data, (x) => x.name === column_name)
             if (column === null) {
@@ -73,6 +72,7 @@ jobs:
                 console.log(`column id: ${column.id}.`)
             }
             
+            // determine content type
             console.log('determine content type...')
             const event_name = context.eventName
             var content_type = null
@@ -91,6 +91,7 @@ jobs:
             }
             
             console.log('create the card...')
+            console.log(`in column ${column.id} for item ${context.issue.number} of type ${content_type}`)
             await github.projects.createCard({
                 column_id: column.id,
                 //note:,
