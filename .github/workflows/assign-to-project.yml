@@ -104,6 +104,7 @@ jobs:
             else {
                 console.log(`issue id: ${item.id}.`)
             }
+            console.log(item) // WTF is the id?
                         
             console.log('create the card...')
             console.log(`in column ${column.id} for item ${item.id} of type ${content_type}`)
