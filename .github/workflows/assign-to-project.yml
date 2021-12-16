@@ -49,7 +49,7 @@ jobs:
             })
             console.log(projects)
             console.log(`retrieved ${projects.length} projects.`)
-            const project = firstOrDefault(projects, (x) => x.name === project_name)
+            const project = firstOrDefault(projects.data, (x) => x.name === project_name)
             //var project = null
             //for (const p of projects) {
             //    if (p.name === project_name) {
@@ -69,7 +69,7 @@ jobs:
                 project_id: project.id
             })
             var column = null
-            for (const c of columns) {
+            for (const c of columns.data) {
                 if (c.name === column_name) {
                     column = c
                 }
