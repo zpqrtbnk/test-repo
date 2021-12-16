@@ -16,6 +16,7 @@ jobs:
     - name: Assign
       uses: actions/github-script@v4
       with:
+        github-token: ${{ secrets.MY_GITHUB_TOKEN_TESTREPO }}
         script: |
             //const project_id = 2
             //const column_name = 'Drafting'
