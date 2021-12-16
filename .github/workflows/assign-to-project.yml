@@ -47,15 +47,8 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo
             })
-            console.log(projects)
-            console.log(`retrieved ${projects.length} projects.`)
+            console.log(`retrieved ${projects.data.length} projects.`)
             const project = firstOrDefault(projects.data, (x) => x.name === project_name)
-            //var project = null
-            //for (const p of projects) {
-            //    if (p.name === project_name) {
-            //        project = p
-            //    }
-            //}
             if (project === null) {
                 core.setFailed(`Failed to find project "${project_name}".`)
                 return
@@ -65,18 +58,19 @@ jobs:
             }
 
             // find the column
+            console.log('find column...')
             const columns = await github.projects.listColumns({
                 project_id: project.id
             })
-            var column = null
-            for (const c of columns.data) {
-                if (c.name === column_name) {
-                    column = c
-                }
-            }
+            console.log(columns)
+            console.log(`retrieved ${columns.data.length} columns.`)
+            const column = firstOrDefault(columns.data, (x) => x.name === column_name)
             if (column === null) {
                 core.setFailed(`Failed to find column "${column_name}" in project ${project.name}.`)
                 return
+            }
+            else {
+                console.log(`column id: ${column.id}`)
             }
             
             var content_type = null
