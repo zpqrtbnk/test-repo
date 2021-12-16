@@ -49,7 +49,7 @@ jobs:
             })
             console.log(`retrieved ${projects.data.length} projects.`)
             const project = firstOrDefault(projects.data, (x) => x.name === project_name)
-            if (project === null) {
+            if (!project) {
                 core.setFailed(`Failed to find project "${project_name}".`)
                 return
             }
@@ -64,7 +64,7 @@ jobs:
             })
             console.log(`retrieved ${columns.data.length} columns.`)
             const column = firstOrDefault(columns.data, (x) => x.name === column_name)
-            if (column === null) {
+            if (!column) {
                 core.setFailed(`Failed to find column "${column_name}" in project ${project.name}.`)
                 return
             }
@@ -82,7 +82,7 @@ jobs:
             if (event_name === 'pull_request') {
                 content_type = 'PullRequest'
             }
-            if (content_type === null) {
+            if (!content_type) {
                 core.setFailed(`Unexpected event name "${event_name}".`)
                 return
             }
@@ -97,7 +97,7 @@ jobs:
                 repo: context.repo.repo,
                 issue_number: context.issue.number
             })
-            if (item === null) {
+            if (!item) {
                 core.setFailed(`Failed to get issue ${context.issue.number}.`)
                 return
             }
