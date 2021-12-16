@@ -12,6 +12,11 @@ on:
 # must have full repo access
 
 # FIXME how can I prevent a user from creating a PR and stealing my token?
+# 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    
+# curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token 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" https://api.github.com/projects/1/columns?owner=zpqrtbnk&repo=test-repo
+
+# curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token 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" https://api.github.com/projects/1/columns?owner=zpqrtbnk-alt&repo=test-repo-alt
+# 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    
     
 jobs:
   assign:
@@ -23,17 +28,31 @@ jobs:
       with:
         github-token: ${{ secrets.MY_GITHUB_TOKEN_TESTREPO }}
         script: |
-            //const project_id = 2
+            //const project_name = 'The API Team Board'
             //const column_name = 'Drafting'
             
-            const project_id = 1
+            const project_name = 'test-project'
             const column_name = 'To do'
+            
+            // find the project
+            const projects = await github.projects.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+            })
+            var project = null
+            for (const p of projects) {
+                if (p.name === project_name) {
+                    project = p
+                }
+            }
+            if (p === null) {
+                core.setFailed(`Failed to find project "${project_name}".`)
+                return
+            }
 
             // find the column
             const columns = await github.projects.listColumns({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                project_id: project_id
+                project_id: project.id
             })
             var column = null
             for (const c of columns) {
@@ -42,7 +61,7 @@ jobs:
                 }
             }
             if (c === null) {
-                core.setFailed(`Failed to find column "${column_name}" in project ${project_id}.`)
+                core.setFailed(`Failed to find column "${column_name}" in project ${project.name}.`)
                 return
             }
             
