@@ -2,7 +2,7 @@ name: Auto Assign PRs to Project
 on:
   issues:
     types: [ opened ]
-  pull_requests:
+  pull_request:
     types: [ opened ]
     
 # github-script: https://github.com/actions/github-script
