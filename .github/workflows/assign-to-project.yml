@@ -91,7 +91,7 @@ jobs:
             }
             
             // get the issue/pr
-            console.log('get the issue/pr...)
+            console.log('get the issue/pr...')
             const item = await github.issues.get({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
