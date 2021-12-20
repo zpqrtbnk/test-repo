@@ -1,8 +1,10 @@
 name: Auto Assign PRs to Project
 on:
-  issues:
-    types: [ opened ]
-  pull_request:
+  #issues:
+  #  types: [ opened ]
+  #pull_request:
+  #  types: [ opened ]
+  pull_request_target:
     types: [ opened ]
     
 # github-script: https://github.com/actions/github-script
@@ -79,7 +81,7 @@ jobs:
             if (event_name === 'issues') {
                 content_type = 'Issue'
             }
-            if (event_name === 'pull_request') {
+            if (event_name === 'pull_request_target') {
                 content_type = 'PullRequest'
             }
             if (!content_type) {
