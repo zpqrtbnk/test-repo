@@ -81,6 +81,7 @@ jobs:
             // determine content type
             console.log('determine content type...')
             console.log(context)
+            console.log(context.issue)
             const event_name = context.eventName
             var content_type = null
             var item_number = null
