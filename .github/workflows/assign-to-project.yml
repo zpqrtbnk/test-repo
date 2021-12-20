@@ -1,11 +1,15 @@
-name: Auto Assign PRs to Project
+name: Assign PRs to Project
 on:
   #issues:
   #  types: [ opened ]
+
   #pull_request:
   #  types: [ opened ]
+
+  # important to use pull_request_target here to run code from 'main' not the PR, 
+  # with access to PAT - and safe permission to make changes to the project
   pull_request_target:
-    types: [ opened ]
+    types: [ opened, labeled ]
     
 # github-script: https://github.com/actions/github-script
 # -> points to github rest (octokit) reference doc
@@ -56,7 +60,7 @@ jobs:
                 return
             }
             else {
-                console.log(`project id: ${project.id}.`)
+                console.log(`project '${project_name}' id: ${project.id}.`)
             }
 
             // find the column
@@ -71,7 +75,7 @@ jobs:
                 return
             }
             else {
-                console.log(`column id: ${column.id}.`)
+                console.log(`column '${column_name}' id: ${column.id}.`)
             }
             
             // determine content type
@@ -92,8 +96,8 @@ jobs:
                 console.log(`content type: ${content_type}.`)
             }
             
-            // get the issue/pr
-            console.log('get the issue/pr...')
+            // get the item
+            console.log('get the item...')
             const item = await github.issues.get({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -104,7 +108,7 @@ jobs:
                 return
             }
             else {                
-                console.log(`issue id: ${item.data.id}.`)
+                console.log(`${content_type} #${context.issue.number} id: ${item.data.id}.`)
             }
                         
             console.log('create the card...')
@@ -116,12 +120,3 @@ jobs:
                 content_type: content_type
             })
             console.log('created')
-            
-            /*
-            await github.issues.update({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                
-            })
-            */
