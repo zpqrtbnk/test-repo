@@ -80,15 +80,15 @@ jobs:
             
             // determine content type
             console.log('determine content type...')
-            console.log(context) // tons of things
-            console.log(context.issue) // { owner: 'zpqrtbnk', repo: 'test-repo', number: 85 }
             const event_name = context.eventName
             var content_type = null
             var item_number = null
             var item_id = null
             if (event_name === 'issues') {
                 content_type = 'Issue'
-                // FIXME uh?
+                // temp!
+                core.setFailed(`Unsupported: issue.`)
+                return
                 item_number = context.issue.number
                 item_id = context.issue.id
             }
@@ -117,6 +117,7 @@ jobs:
                 return
             }
             else {                
+                console.log(item)
                 console.log(`${content_type} #${item_number} id: ${item.data.id}.`)
                 console.log(`was: ${item_id} and match?!`)
             }
