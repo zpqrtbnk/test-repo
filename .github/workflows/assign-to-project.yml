@@ -98,6 +98,10 @@ jobs:
             
             // get the item
             console.log('get the item...')
+            console.log(context)
+            console.log(context.issue)
+            console.log(context.pull_request)
+            console.log(context.issue())
             const item = await github.issues.get({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
