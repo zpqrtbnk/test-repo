@@ -80,21 +80,22 @@ jobs:
             
             // determine content type
             console.log('determine content type...')
-            console.log(context)
-            console.log(context.issue)
+            console.log(context) // tons of things
+            console.log(context.issue) // { owner: 'zpqrtbnk', repo: 'test-repo', number: 85 }
             const event_name = context.eventName
             var content_type = null
             var item_number = null
             var item_id = null
             if (event_name === 'issues') {
                 content_type = 'Issue'
+                // FIXME uh?
                 item_number = context.issue.number
                 item_id = context.issue.id
             }
             if (event_name === 'pull_request' || event_name === 'pull_request_target') {
                 content_type = 'PullRequest'
-                item_number = context.pull_request.number
-                item_id = context.pull_request.id
+                item_number = context.payload.pull_request.number
+                item_id = context.payload.pull_request.id
             }
             if (!content_type) {
                 core.setFailed(`Unexpected event name "${event_name}".`)
@@ -112,16 +113,16 @@ jobs:
                 issue_number: item_number
             })
             if (!item) {
-                core.setFailed(`Failed to get issue ${context.issue.number}.`)
+                core.setFailed(`Failed to get item ${item_number}.`)
                 return
             }
             else {                
-                console.log(`${content_type} #${context.issue.number} id: ${item.data.id}.`)
+                console.log(`${content_type} #${item_number} id: ${item.data.id}.`)
                 console.log(`was: ${item_id} and match?!`)
             }
                         
             console.log('create the card...')
-            console.log(`in column ${column.id} for item ${item.data.id} of type ${content_type}`)
+            console.log(`in column ${column.id} for item ${item_id} of type ${content_type}`)
             await github.projects.createCard({
                 column_id: column.id,
                 //note:,
