@@ -17,6 +17,17 @@ module.exports = async ({github, context}) => {
    
     const restapi = github.rest
 
+    function last1(s) {
+        const pos = s.lastIndexOf('/')
+        return s.substring(pos + 1)
+    }
+
+    function last2(s) {
+        const pos1 = s.lastIndexOf('/')
+        const pos2 = s.lastIndexOf('/', pos1-1)
+        return [ s.substring(pos2 + 1, pos1), s.substring(pos + 1) ]
+    }
+
     // insanely enough, due to the total lack of documentation, this
     // is the best way one can figure out what exactly we are getting
     console.log(github)
@@ -46,17 +57,13 @@ module.exports = async ({github, context}) => {
     const column = columnResponse.data
     console.log(column)
 
-    function meh(s) {
-        const pos = s.lastIndexOf('/')
-        return s.substring(pos+1)
-    }
-
-    const projectId = meh(column.project_url)
+    const projectId = last1(column.project_url)
     const projectResponse = await restapi.projects.get({
         project_id: projectId
     });
     const project = projectResponse.data
     console.log(project)
+    const projectName = project.name // this! is the project name, we want a milestone with the same name
 
     const cardId = context.payload.project_card.id
     const cardResponse = await restapi.projects.getCard({
@@ -64,6 +71,27 @@ module.exports = async ({github, context}) => {
     })
     const card = cardResponse.data
     console.log(card)
+
+    const [ itemType, itemNumber ] = last2(card.content_url)
+    var itemId
+    if (itemType == 'issue') {
+        const issueResponse = await restapi.issues.get({
+            owner: context.owner,
+            repo: context.repo,
+            issue_number: itemNumber
+        })
+        console.log(issuResponse.data)
+        itemId = issueResponse.data.id
+    }
+    if (itemType == 'pulls') {
+        const pullResponse = await restapi.pulls.get({
+            owner: context.owner,
+            repo: context.repo,
+            pull_number: itemNumber
+        })
+        console.log(pullResponse.data)
+        itemId = pullResponse.data.id
+    }
 
     const milestones = await restapi.issues.listMilestones({
         repo: context.repo,
