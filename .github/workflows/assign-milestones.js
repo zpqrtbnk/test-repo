@@ -25,7 +25,7 @@ module.exports = async ({github, context}) => {
     function last2(s) {
         const pos1 = s.lastIndexOf('/')
         const pos2 = s.lastIndexOf('/', pos1-1)
-        return [ s.substring(pos2 + 1, pos1), s.substring(pos + 1) ]
+        return [ s.substring(pos2 + 1, pos1), s.substring(pos1 + 1) ]
     }
 
     // insanely enough, due to the total lack of documentation, this
