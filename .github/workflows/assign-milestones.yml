@@ -23,6 +23,10 @@ jobs:
         
             // see https://github.com/actions/github-script
             //
+            // note: 'github' below is not the same as the yml-level 'github' context
+            //       see https://docs.github.com/en/actions/learn-github-actions/contexts
+            //       for yml contexts
+            //
             // github    A pre-authenticated octokit/rest.js client with pagination plugins
             //  .rest        The REST API (e.g. github.rest.issues.get(...) gets an issue)
             //  .request

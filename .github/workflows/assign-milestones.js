@@ -17,6 +17,8 @@ module.exports = ({github, context}) => {
    
     const restapi = github.rest
 
+    // insanely enough, due to the total lack of documentation, this
+    // is the best way one can figure out what exactly we are getting
     console.log(github)
     console.log(context)
     console.log(context.payload)
@@ -24,20 +26,36 @@ module.exports = ({github, context}) => {
     //console.log(`event: ${github.event_name}/${github.event.action}`)
 
     // get and validate the event name
-    const eventName = github.event_name
+    const eventName = context.eventName
     if (eventName != 'project_card') {
         return
     }
 
     // get and validate the event action
-    const eventAction = github.event.action
+    const eventAction = context.payload.action
     if (false && eventAction != 'created' && eventAction != 'deleted') {
         return
     }
 
     console.log(`event: ${eventName}/${eventAction}`)
-    console.log(context)
-    console.log(context.payload)
+
+    const columnId = context.payload.project_card.column_id
+    const column = restapi.projects.getColumn({
+        column_id: columnId
+    })
+    console.log(column)
+
+    const cardId = context.payload.project_card.id
+    const card = restapi.projects.getCard({
+        card_id: cardId
+    })
+    console.log(card)
+
+    const milestones = restapi.issues.listMilestones({
+        repo: context.repo,
+        owner: context.owner
+    })
+    console.log(milestones)
 
     /*
 
