@@ -52,7 +52,7 @@ module.exports = async ({github, context}) => {
     }
 
     const projectId = meh(column.project_url)
-    const projectResponse = await restapi.projects.getProject({
+    const projectResponse = await restapi.projects.get({
         project_id: projectId
     });
     const project = projectResponse.data
