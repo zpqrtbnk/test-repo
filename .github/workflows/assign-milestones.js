@@ -76,8 +76,8 @@ module.exports = async ({github, context, core}) => {
     var itemId
     if (itemType == 'issues') {
         const issueResponse = await restapi.issues.get({
-            owner: context.owner,
-            repo: context.repo,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
             issue_number: itemNumber
         })
         console.log(issuResponse.data)
@@ -85,8 +85,8 @@ module.exports = async ({github, context, core}) => {
     }
     else if (itemType == 'pulls') {
         const pullResponse = await restapi.pulls.get({
-            owner: context.owner,
-            repo: context.repo,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
             pull_number: itemNumber
         })
         console.log(pullResponse.data)
@@ -99,8 +99,8 @@ module.exports = async ({github, context, core}) => {
     console.log(`item: ${itemType}/${itemId}`)
 
     const milestonesResponse = await restapi.issues.listMilestones({
-        repo: context.repo,
-        owner: context.owner
+        owner: context.repo.owner,
+        repo: context.repo.repo,
     })
     const milestones = milestonesResponse.data
     console.log(milestones)
