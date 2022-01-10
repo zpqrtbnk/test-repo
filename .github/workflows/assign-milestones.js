@@ -15,8 +15,6 @@
 
 module.exports = ({github, context}) => {
    
-    console.log('assign-milestones')
-
     const restapi = github.rest
 
     // get and validate the event name
@@ -27,11 +25,13 @@ module.exports = ({github, context}) => {
 
     // get and validate the event action
     const eventAction = github.event.action
-    if (eventAction != 'created' && eventAction != 'deleted') {
+    if (false && eventAction != 'created' && eventAction != 'deleted') {
         return
     }
 
     console.log(`event: ${eventName}/${eventAction}`)
+    console.log(context);
+    console.log(context.payload);
 
     /*
 
