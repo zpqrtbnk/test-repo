@@ -17,7 +17,11 @@ module.exports = ({github, context}) => {
    
     const restapi = github.rest
 
-    console.log(`event: ${github.event_name}/${github.event.action}`)
+    console.log(github)
+    console.log(context)
+    console.log(context.payload)
+
+    //console.log(`event: ${github.event_name}/${github.event.action}`)
 
     // get and validate the event name
     const eventName = github.event_name
@@ -32,8 +36,8 @@ module.exports = ({github, context}) => {
     }
 
     console.log(`event: ${eventName}/${eventAction}`)
-    console.log(context);
-    console.log(context.payload);
+    console.log(context)
+    console.log(context.payload)
 
     /*
 
