@@ -126,11 +126,12 @@ module.exports = async ({github, context, core}) => {
         }
 
         const milestoneId = milestone.id
+        const milestoneNumber = milestone.number
 
         request = {
             owner: context.repo.owner,
             repo: context.repo.repo,
-            milestone: milestoneId
+            milestone: milestoneNumber
         }
         request[isIssue ? 'issue_number' : 'pull_number'] = itemNumber
         await itemApi.update(request)
@@ -143,7 +144,7 @@ module.exports = async ({github, context, core}) => {
                 repo: context.repo.repo
             }
             request[isIssue ? 'issue_number' : 'pull_number'] = itemNumber
-            request.milestone = null
+            request.milestone = "none"
             await itemApi.update(request)
         }
         else {
