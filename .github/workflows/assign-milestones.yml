@@ -43,4 +43,4 @@ jobs:
             //           current working directory.
 
             const script = require('./.github/workflows/assign-milestones.js')
-            script({github, context})
+            await script({github, context})

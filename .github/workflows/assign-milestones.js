@@ -13,7 +13,7 @@
 // it's move to a project column for the first time - being assigned to the project
 // and showing in project's backlog is not enough.
 
-module.exports = ({github, context}) => {
+module.exports = async ({github, context}) => {
    
     const restapi = github.rest
 
