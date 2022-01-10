@@ -83,7 +83,7 @@ module.exports = async ({github, context}) => {
         console.log(issuResponse.data)
         itemId = issueResponse.data.id
     }
-    if (itemType == 'pulls') {
+    else if (itemType == 'pulls') {
         const pullResponse = await restapi.pulls.get({
             owner: context.owner,
             repo: context.repo,
@@ -92,6 +92,10 @@ module.exports = async ({github, context}) => {
         console.log(pullResponse.data)
         itemId = pullResponse.data.id
     }
+    else {
+        console.log(`item: ${itemType} ??`)
+    }
+    console.log(`item: ${itemType}/${itemId}`)
 
     const milestones = await restapi.issues.listMilestones({
         repo: context.repo,
