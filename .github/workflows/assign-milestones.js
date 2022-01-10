@@ -17,6 +17,8 @@ module.exports = ({github, context}) => {
    
     const restapi = github.rest
 
+    console.log(`event: ${github.event_name}/${github.event.action}`)
+
     // get and validate the event name
     const eventName = github.event_name
     if (eventName != 'project_card') {
