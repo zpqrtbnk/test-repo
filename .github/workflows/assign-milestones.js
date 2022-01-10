@@ -9,8 +9,12 @@
 //   if issue is not closed,
 //   remove issue from milestone, if any
 
-module.exports = ({github, context}) => {
+// an issue or PR actually becomes a card (or, a card is actually created...) when
+// it's move to a project column for the first time - being assigned to the project
+// and showing in project's backlog is not enough.
 
+module.exports = ({github, context}) => {
+   
     const restapi = github.rest
 
     // get and validate the event name
@@ -24,6 +28,10 @@ module.exports = ({github, context}) => {
     if (eventAction != 'created' && eventAction != 'deleted') {
         return
     }
+
+    console.log(`event: ${eventName}/${eventAction}`)
+
+    /*
 
     // get and validate the card
     const cardMeh = context.action.card_number
@@ -119,5 +127,6 @@ module.exports = ({github, context}) => {
         content_type: content_type
     })
     console.log('created')
+    */
 }
 

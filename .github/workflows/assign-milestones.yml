@@ -2,7 +2,7 @@ name: Assign Milestones
 on:
   project_card:
     # ignore: moved, converted, edited
-    types: [ created, deleted ]
+    types: [ created, deleted, moved ] # FIXME temp
     
 jobs:
   assign:
