@@ -28,6 +28,15 @@ module.exports = async ({github, context, core}) => {
         return [ s.substring(pos2 + 1, pos1), s.substring(pos1 + 1) ]
     }
 
+    function firstOrDefault(items, predicate) {
+        for (const item of items) {
+            if (predicate(item)) {
+                return item
+            }
+        }
+        return null
+    }
+
     // insanely enough, due to the total lack of documentation, this
     // is the best way one can figure out what exactly we are getting
     console.log(github)
@@ -73,37 +82,76 @@ module.exports = async ({github, context, core}) => {
     console.log(card)
 
     const [ itemType, itemNumber ] = last2(card.content_url)
-    var itemId
-    if (itemType == 'issues') {
-        const issueResponse = await restapi.issues.get({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: itemNumber
-        })
-        console.log(issueResponse.data)
-        itemId = issueResponse.data.id
-    }
-    else if (itemType == 'pulls') {
-        const pullResponse = await restapi.pulls.get({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            pull_number: itemNumber
-        })
-        console.log(pullResponse.data)
-        itemId = pullResponse.data.id
-    }
-    else {
+    const isIssue = itemType == 'issues'
+    const isPull = itemType == 'pulls'
+    if (!isIssue && !isPull) {
         core.setFailed(`Unsupported item type ${itemType}`)
         return
     }
-    console.log(`item: ${itemType}/${itemId}`)
+    const itemApi = isIssue ? restapi.issues : restapi.pulls
 
-    const milestonesResponse = await restapi.issues.listMilestones({
+    var request = {
         owner: context.repo.owner,
-        repo: context.repo.repo,
-    })
-    const milestones = milestonesResponse.data
-    console.log(milestones)
+        repo: context.repo.repo
+    }
+    request[isIssue ? 'issue_number' : 'pull_number'] = itemNumber
+
+    const itemResponse = await itemApi.get(itemRequest)
+    const item = itemResponse.data
+    console.log(item)
+    const itemId = item.id
+    const itemMilestone = item.milestone
+    console.log(`item: ${itemType}/${itemId} milestone: ${itemMilestone == null ? '<none>' : itemMilestone}`)
+
+    if (eventAction == 'created') {
+        console.log('add or update milestone of issue/pull of created card')
+
+        const milestonesResponse = await restapi.issues.listMilestones({
+            owner: context.repo.owner,
+            repo: context.repo.repo
+        })
+        const milestones = milestonesResponse.data
+        console.log(milestones)
+        var milestone = firstOrDefault(milestones, (x) => x.title == projectName)
+
+        if (!milestone) {
+            console.log(`create milestone '${projectName}'`)
+            const milestoneResponse = await restapi.issues.createMilestone({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: projectName
+            })
+            milestone = milestoneResponse.data
+        }
+
+        const milestoneId = milestone.id
+
+        request = {
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            milestone: milestoneId
+        }
+        request[isIssue ? 'issue_number' : 'pull_number'] = itemNumber
+        await itemApi.update(request)
+    }
+    else if (eventAction == 'deleted') {
+        if (itemMilestone) {
+            console.log('remove milestone from issue/pull of deleted card')
+            request = {
+                owner: context.repo.owner,
+                repo: context.repo.repo
+            }
+            request[isIssue ? 'issue_number' : 'pull_number'] = itemNumber
+            request.milestone = null
+            await itemApi.update(request)
+        }
+        else {
+            console.log('deleted card had no milestone')
+        }
+    }
+    else {
+        console.log(`nothing to do for evet action ${eventAction}`)
+    }
 
     /*
 
