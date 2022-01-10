@@ -117,9 +117,13 @@ jobs:
                 return
             }
             else {                
-                console.log(item)
-                console.log(`${content_type} #${item_number} id: ${item.data.id}.`)
-                console.log(`was: ${item_id} and match?!`)
+                console.log(`${content_type} #${context.issue.number} id: ${item.data.id}.`)
+                if (item_id === item.data.id) {
+                    console.log(`item_id: ${item_id}`)
+                }
+                else {
+                    console.log(`but 'context.payload' provides item_id: ${item_id} and meh?`)
+                }
             }
                         
             console.log('create the card...')

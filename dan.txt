@@ -1,3 +1,0 @@
-this is a new file only in my branch
-
-changing something that won't conflict in master
