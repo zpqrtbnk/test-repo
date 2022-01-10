@@ -13,7 +13,7 @@
 // it's move to a project column for the first time - being assigned to the project
 // and showing in project's backlog is not enough.
 
-module.exports = async ({github, context}) => {
+module.exports = async ({github, context, core}) => {
    
     const restapi = github.rest
 
@@ -74,7 +74,7 @@ module.exports = async ({github, context}) => {
 
     const [ itemType, itemNumber ] = last2(card.content_url)
     var itemId
-    if (itemType == 'issue') {
+    if (itemType == 'issues') {
         const issueResponse = await restapi.issues.get({
             owner: context.owner,
             repo: context.repo,
@@ -93,14 +93,16 @@ module.exports = async ({github, context}) => {
         itemId = pullResponse.data.id
     }
     else {
-        console.log(`item: ${itemType} ??`)
+        core.setFailed(`Unsupported item type ${itemType}`)
+        return
     }
     console.log(`item: ${itemType}/${itemId}`)
 
-    const milestones = await restapi.issues.listMilestones({
+    const milestonesResponse = await restapi.issues.listMilestones({
         repo: context.repo,
         owner: context.owner
     })
+    const milestones = milestonesResponse.data
     console.log(milestones)
 
     /*
