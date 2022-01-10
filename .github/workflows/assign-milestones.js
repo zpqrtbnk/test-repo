@@ -95,6 +95,7 @@ module.exports = async ({github, context, core}) => {
         repo: context.repo.repo
     }
     request[isIssue ? 'issue_number' : 'pull_number'] = itemNumber
+    console.log(request)
 
     const itemResponse = await itemApi.get(request)
     const item = itemResponse.data
