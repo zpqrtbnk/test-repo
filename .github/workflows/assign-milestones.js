@@ -80,7 +80,7 @@ module.exports = async ({github, context, core}) => {
             repo: context.repo.repo,
             issue_number: itemNumber
         })
-        console.log(issuResponse.data)
+        console.log(issueResponse.data)
         itemId = issueResponse.data.id
     }
     else if (itemType == 'pulls') {
