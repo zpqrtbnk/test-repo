@@ -1,0 +1,123 @@
+// get the project
+// check if the name matches a version x.y or x.y.z
+// created
+//   check that there is a corresponding milestone
+//   else create that milestone
+//   and assign the issue to the milestone
+// deleted
+//   get the issue
+//   if issue is not closed,
+//   remove issue from milestone, if any
+
+module.exports = ({github, context}) => {
+
+    const restapi = github.rest
+
+    // get and validate the event name
+    const eventName = github.event_name
+    if (eventName != 'project_card') {
+        return
+    }
+
+    // get and validate the event action
+    const eventAction = github.event.action
+    if (eventAction != 'created' && eventAction != 'deleted') {
+        return
+    }
+
+    // get and validate the card
+    const cardMeh = context.action.card_number
+
+    // get and validate the project
+
+    // get and validate the card item
+
+    // 
+    if (eventAction == 'deleted') {
+
+    }
+
+    //const project_name = 'The API Team Board'
+
+    const project_name = 'test-project'
+
+    function firstOrDefault(items, predicate) {
+        for (const item of items) {
+            if (predicate(item)) {
+                return item
+            }
+        }
+        return null
+    }
+
+    // find the card
+    // find the type: issue, PR, note
+    // if issue or PR
+    // find corresponding milestone
+    // created if needed
+    // assign milestone
+    // madness - this is the only way we can explore context ?!
+    console.log(context);
+    console.log(context.payload);
+    return;
+
+    // find the project
+    console.log('find project...')
+    const projects = await restapi.projects.listForRepo({
+        owner: context.repo.owner,
+        repo: context.repo.repo
+    })
+    console.log(`retrieved ${projects.data.length} projects.`)
+    const project = firstOrDefault(projects.data, (x) => x.name === project_name)
+    if (!project) {
+        core.setFailed(`Failed to find project "${project_name}".`)
+        return
+    }
+    else {
+        console.log(`project id: ${project.id}.`)
+    }
+
+    // determine content type
+    console.log('determine content type...')
+    const event_name = context.eventName
+    var content_type = null
+    if (event_name === 'issues') {
+        content_type = 'Issue'
+    }
+    if (event_name === 'pull_request') {
+        content_type = 'PullRequest'
+    }
+    if (!content_type) {
+        core.setFailed(`Unexpected event name "${event_name}".`)
+        return
+    }
+    else {
+        console.log(`content type: ${content_type}.`)
+    }
+
+    // get the issue/pr
+    console.log('get the issue/pr...')
+    const item = await restapi.issues.get({
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        issue_number: context.issue.number
+    })
+    if (!item) {
+        core.setFailed(`Failed to get issue ${context.issue.number}.`)
+        return
+    }
+    else {                
+        console.log(`issue id: ${item.data.id}.`)
+    }
+                
+    console.log('create the card...')
+    console.log(`in column ${column.id} for item ${item.data.id} of type ${content_type}`)
+    await restapi.projects.createCard({
+        column_id: column.id,
+        //note:,
+        content_id: item.data.id,
+        content_type: content_type
+    })
+    console.log('created')
+}
+
