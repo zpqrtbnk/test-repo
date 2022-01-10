@@ -40,18 +40,18 @@ module.exports = ({github, context}) => {
     console.log(`event: ${eventName}/${eventAction}`)
 
     const columnId = context.payload.project_card.column_id
-    const column = restapi.projects.getColumn({
+    const column = await restapi.projects.getColumn({
         column_id: columnId
     })
     console.log(column)
 
     const cardId = context.payload.project_card.id
-    const card = restapi.projects.getCard({
+    const card = await restapi.projects.getCard({
         card_id: cardId
     })
     console.log(card)
 
-    const milestones = restapi.issues.listMilestones({
+    const milestones = await restapi.issues.listMilestones({
         repo: context.repo,
         owner: context.owner
     })
