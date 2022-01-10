@@ -38,5 +38,5 @@ jobs:
             //           (relative to the current working directory) + requiring npm packages installed in the
             //           current working directory.
 
-            const script = require('./.github/workflows/assign-milestone.js')
+            const script = require('./.github/workflows/assign-milestones.js')
             script({github, context})
