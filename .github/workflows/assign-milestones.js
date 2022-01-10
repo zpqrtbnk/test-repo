@@ -148,7 +148,7 @@ module.exports = async ({github, context, core}) => {
                 repo: context.repo.repo
             }
             request[isIssue ? 'issue_number' : 'pull_number'] = itemNumber
-            request.milestone = "none"
+            request.milestone = null
             await itemApi.update(request)
         }
         else {
