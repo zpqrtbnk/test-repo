@@ -53,7 +53,7 @@ module.exports = async ({github, context, core}) => {
 
     // get and validate the event action
     const eventAction = context.payload.action
-    if (false && eventAction != 'created' && eventAction != 'deleted') {
+    if (eventAction != 'created' && eventAction != 'deleted') {
         return
     }
 
@@ -72,16 +72,18 @@ module.exports = async ({github, context, core}) => {
     });
     const project = projectResponse.data
     console.log(project)
-    const projectName = project.name // this! is the project name, we want a milestone with the same name
+    const projectName = project.name
 
-    const cardId = context.payload.project_card.id
-    const cardResponse = await restapi.projects.getCard({
-        card_id: cardId
-    })
-    const card = cardResponse.data
-    console.log(card)
+    // -- when a card is deleted it cannot be fetched!
+    //const cardId = context.payload.project_card.id
+    //const cardResponse = await restapi.projects.getCard({
+    //    card_id: cardId
+    //})
+    //const card = cardResponse.data
+    //console.log(card)
 
-    const [ itemType, itemNumber ] = last2(card.content_url)
+    //const [ itemType, itemNumber ] = last2(card.content_url)
+    const [ itemType, itemNumber ] = last2(context.payload.project_card.content_url)
     const isIssue = itemType == 'issues'
     const isPull = itemType == 'pulls'
     if (!isIssue && !isPull) {
@@ -125,16 +127,18 @@ module.exports = async ({github, context, core}) => {
             milestone = milestoneResponse.data
         }
 
-        const milestoneId = milestone.id
         const milestoneNumber = milestone.number
 
-        request = {
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            milestone: milestoneNumber
+        if (!item.milestone || item.milestone.number != milestoneNumber)
+        {
+            request = {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                milestone: milestoneNumber
+            }
+            request[isIssue ? 'issue_number' : 'pull_number'] = itemNumber
+            await itemApi.update(request)
         }
-        request[isIssue ? 'issue_number' : 'pull_number'] = itemNumber
-        await itemApi.update(request)
     }
     else if (eventAction == 'deleted') {
         if (itemMilestone) {
