@@ -15,6 +15,8 @@
 
 module.exports = ({github, context}) => {
    
+    console.log('assign-milestones')
+
     const restapi = github.rest
 
     // get and validate the event name
