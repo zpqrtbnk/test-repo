@@ -11,13 +11,46 @@ module.exports = /*async*/ ({github, context, core}) => {
         return null
     }
 
-    function test() {
-        console.log("test " + context.payload.inputs.version)
+    async function validateRelease() {
+
+        const version = context.payload.inputs.version
+        const tag = "v" + version
+        console.log(`Validate version '${version}'.`)
+        const release = github.repos.getReleaseByTag({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            tag: tag
+          })
+        if (release === null) {
+            core.setFailed(`Could not find a GitHub release for tag '${tag}'.`)
+            return
+        }
+        if (release.draft) {
+            core.setFailed(`GitHub release for tag '${tag}' is already published.`)
+            return
+        }
+        try {
+            const ref = await github.git.getRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: 'tags/' + tag
+            })
+            core.setFailed(`Tag '${tag}' already exists.`)
+            return
+        }
+        catch (error) {
+            // this is expected - the tag should not exist
+        }
+
+        console.log(`Found a yet-unpublished GitHub Release for tag '${tag}' which does not exist yet.`)
     }   
 
-    console.log("script")
+    function test() {
+        console.log('TEST')
+    }
 
     return {
-        test: function() { test() }
+        test: test,
+        validateRelease: validateRelease
     }
 }
