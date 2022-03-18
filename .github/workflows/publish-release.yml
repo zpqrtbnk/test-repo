@@ -37,3 +37,13 @@ jobs:
           // rest should be in a different step
           // await script.publishRelease()
           // await script.closeMilestone()
+
+    - name: Finalize GitHub release and milestone
+      if: github.event.inputs.dryrun == false
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const scriptf = require('./.github/workflows/publish-release.js')
+          const script = scriptf({github, context, core})
+          //await script.publishRelease()
+          //await script.closeMilestone()
