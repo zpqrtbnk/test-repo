@@ -2,8 +2,9 @@ name: Publish Release
 on:
   workflow_dispatch:
     inputs:
-      description: 'Version'
-      required: true
+      version:
+        description: 'Version'
+        required: true
 
 jobs:
   job:
@@ -20,5 +21,5 @@ jobs:
       with:
         script: |
           const script = require('./.github/workflows/publish-release.js')
-          console.log()
+          console.log(github.event.inputs.version)
           console.log(script)
