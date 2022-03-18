@@ -1,14 +1,10 @@
-// get the project
-// check if the name matches a version x.y or x.y.z
-// created
-//   check that there is a corresponding milestone
-//   else create that milestone
-//   and assign the issue to the milestone
-// deleted
-//   get the issue
-//   if issue is not closed,
-//   remove issue from milestone, if any
-
+// assign a milestone to issues or PRs added to a project, with a name corresponding
+// to the name of the project - create the milestone if it does not exist
+//
+// adding a *second* project to the issue will update the milestone accordingly
+// removing that project will reset the milestone entirely (not use the other project)
+// and, no idea what happens if one very quickly adds and removes an issue
+//
 // an issue or PR actually becomes a card (or, a card is actually created...) when
 // it's move to a project column for the first time - being assigned to the project
 // and showing in project's backlog is not enough.
