@@ -40,6 +40,8 @@ module.exports = /*async*/ ({github, context, core}) => {
             core.setFailed(`Could not find milestone '${version}'.`)
             return
         }
+        console.log('MILESTONE')
+        console.log(milestone)
         if (milestone.state != "open") {
             core.setFailed(`Milestone '${version}' is already closed.`)
             return
