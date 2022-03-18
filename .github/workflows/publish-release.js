@@ -44,13 +44,11 @@ module.exports = /*async*/ ({github, context, core}) => {
 
         // github release must exist and not be published yet
         try {
-            const release = restapi.repos.getReleaseByTag({
+            const release = await restapi.repos.getReleaseByTag({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 tag: tag
             })
-            console.log('RELEASE')
-            console.log(release)
             if (release === null) {
                 core.setFailed(`Could not find a GitHub release for tag '${tag}'.`)
                 return
@@ -88,7 +86,7 @@ module.exports = /*async*/ ({github, context, core}) => {
         const tag = "v" + version
         console.log(`Publish GitHub release '${version}'.`)
 
-        const release = restapi.repos.getReleaseByTag({
+        const release = await restapi.repos.getReleaseByTag({
             owner: context.repo.owner,
             repo: context.repo.repo,
             tag: tag
