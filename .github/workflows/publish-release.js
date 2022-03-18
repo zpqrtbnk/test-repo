@@ -16,17 +16,24 @@ module.exports = /*async*/ ({github, context, core}) => {
         const version = context.payload.inputs.version
         const tag = "v" + version
         console.log(`Validate version '${version}'.`)
-        const release = restapi.repos.getReleaseByTag({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            tag: tag
-          })
-        if (release === null) {
-            core.setFailed(`Could not find a GitHub release for tag '${tag}'.`)
-            return
+        try {
+            const release = restapi.repos.getReleaseByTag({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag: tag
+              })
+            if (release === null) {
+                core.setFailed(`Could not find a GitHub release for tag '${tag}'.`)
+                return
+            }
+            if (release.draft) {
+                core.setFailed(`GitHub release for tag '${tag}' is already published.`)
+                return
+            }
         }
-        if (release.draft) {
-            core.setFailed(`GitHub release for tag '${tag}' is already published.`)
+        catch (error)
+        {
+            core.setFailed(`Could not find a GitHub release for tag '${tag}'.`)
             return
         }
         try {
