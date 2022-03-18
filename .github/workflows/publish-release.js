@@ -22,7 +22,7 @@ module.exports = /*async*/ ({github, context, core}) => {
             const ref = await restapi.git.getRef({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                ref: 'heads/release' + version
+                ref: 'heads/release/' + version
             })
             if (ref == null) {
                 core.setFailed(`Could not find branch 'release/${version}'.`)
