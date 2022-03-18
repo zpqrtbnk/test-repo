@@ -1,6 +1,7 @@
 module.exports = /*async*/ ({github, context, core}) => {
    
     const restapi = github.rest
+    var dryrun = context.payload.inputs.dryrun
 
     function firstOrDefault(items, predicate) {
         for (const item of items) {
@@ -33,6 +34,7 @@ module.exports = /*async*/ ({github, context, core}) => {
             core.setFailed(`Could not find branch 'release/${version}'.`)
             return
         }
+        console.log(`Found branch 'release/${version}'.`)
 
         // github milestone must exist and be open
         const milestone = await getMilestone()
@@ -46,6 +48,7 @@ module.exports = /*async*/ ({github, context, core}) => {
             core.setFailed(`Milestone '${version}' is already closed.`)
             return
         }
+        console.log(`Found open milestone '${version}'.`)
 
         // github release must exist and not be published yet
         try {
@@ -68,6 +71,7 @@ module.exports = /*async*/ ({github, context, core}) => {
             core.setFailed(`Could not find a GitHub release for tag '${tag}'.`)
             return
         }
+        console.log(`Found yet-unpublished GitHub Release for tag '${tag}'.`)
 
         // tag must not exist
         try {
@@ -82,8 +86,9 @@ module.exports = /*async*/ ({github, context, core}) => {
         catch (error) {
             // this is expected - the tag should not exist
         }
+        console.log(`Verified that tag '${tag}' does not exist yet.`)
 
-        console.log(`Found branch 'release/${version}', a yet-unpublished GitHub Release for tag '${tag}' which does not exist yet.`)
+        console.log('Release is valid.')
     }   
 
     async function publishRelease() {

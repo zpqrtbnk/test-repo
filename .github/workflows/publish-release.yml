@@ -5,6 +5,11 @@ on:
       version:
         description: 'Version'
         required: true
+      dryrun:
+        description: 'DryRun'
+        required: true
+        type: boolean
+        default: true
 
 jobs:
   job:
