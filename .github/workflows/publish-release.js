@@ -16,7 +16,7 @@ module.exports = /*async*/ ({github, context, core}) => {
         const version = context.payload.inputs.version
         const tag = "v" + version
         console.log(`Validate version '${version}'.`)
-        const release = github.repos.getReleaseByTag({
+        const release = restapi.repos.getReleaseByTag({
             owner: context.repo.owner,
             repo: context.repo.repo,
             tag: tag
@@ -30,7 +30,7 @@ module.exports = /*async*/ ({github, context, core}) => {
             return
         }
         try {
-            const ref = await github.git.getRef({
+            const ref = await restapi.git.getRef({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 ref: 'tags/' + tag
