@@ -110,7 +110,8 @@ module.exports = /*async*/ ({github, context, core}) => {
             owner: context.repo.owner,
             repo: context.repo.repo
         })
-        const release = firstOrDefault(releases, (x) => x.tag == tag)
+        console.log(releases)
+        const release = firstOrDefault(release.data, (x) => x.tag == tag)
         return release
     }
 
