@@ -35,7 +35,7 @@ module.exports = /*async*/ ({github, context, core}) => {
         }
 
         // github milestone must exist and be open
-        const milestone = getMilestone()
+        const milestone = await getMilestone()
         if (milestone == null) {
             core.setFailed(`Could not find milestone '${version}'.`)
             return
@@ -113,7 +113,12 @@ module.exports = /*async*/ ({github, context, core}) => {
         console.log(`Close milestone '${version}'.`)
 
         const milestone = await getMilestone()
-        //...
+        await restapi.issues.updateMilestone({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            milestone_number: milestone.number,
+            state: "closed"
+        })
     }
 
     async function getMilestone() {
