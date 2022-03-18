@@ -19,20 +19,14 @@ module.exports = /*async*/ ({github, context, core}) => {
         console.log(`Validate version '${version}'.`)
 
         // git branch must exist
-        try {
-            const ref = await restapi.git.getRef({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                ref: 'heads/release/' + version
-            })
-            if (ref == null) {
-                core.setFailed(`Could not find branch 'release/${version}'.`)
-                return    
-            }
-        }
-        catch (error) {
+        const refs = await restapi.git.listMatchingRefs({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: `heads/release/${version}`
+        })
+        if (firstOrDefault(refs, (x) => x.ref == `heads/release/${version}`) == null) {
             core.setFailed(`Could not find branch 'release/${version}'.`)
-            return
+            return    
         }
         console.log(`Found branch 'release/${version}'.`)
 
@@ -72,19 +66,14 @@ module.exports = /*async*/ ({github, context, core}) => {
         console.log(`Found yet-unpublished GitHub Release for tag '${tag}'.`)
 
         // tag must not exist
-        try {
-            const refs = await restapi.git.listMatchingRefs({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                //ref: 'tags/' + tag
-                ref: 'tags/wip'
-            })
-            console.log(refs)
+        const refs = await restapi.git.listMatchingRefs({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: `tags/${tag}`
+        })
+        if (firstOrDefault(refs.data, (x) => x.ref == `tags/${tag}`) != null) {
             core.setFailed(`Tag '${tag}' already exists.`)
             return
-        }
-        catch (error) {
-            // this is expected - the tag should not exist
         }
         console.log(`Verified that tag '${tag}' does not exist yet.`)
 
