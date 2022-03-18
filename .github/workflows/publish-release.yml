@@ -36,7 +36,7 @@ jobs:
           await script.validateRelease()
 
     - name: Finalize GitHub release and milestone
-      if: !github.event.inputs.dryrun
+      if: ${{ !github.event.inputs.dryrun }}
       uses: actions/github-script@v5
       with:
         script: |
