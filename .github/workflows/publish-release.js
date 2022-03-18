@@ -24,8 +24,7 @@ module.exports = /*async*/ ({github, context, core}) => {
             repo: context.repo.repo,
             ref: `heads/release/${version}`
         })
-        console.log(branchRefs)
-        if (firstOrDefault(branchRefs.data, (x) => x.ref == `heads/release/${version}`) == null) {
+        if (firstOrDefault(branchRefs.data, (x) => x.ref == `refs/heads/release/${version}`) == null) {
             core.setFailed(`Could not find branch 'release/${version}'.`)
             return    
         }
