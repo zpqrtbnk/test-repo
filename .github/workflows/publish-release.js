@@ -48,8 +48,7 @@ module.exports = /*async*/ ({github, context, core}) => {
             core.setFailed(`Could not find a GitHub release for tag '${tag}'.`)
             return
         }
-        console.log(release)
-        if (release.draft) {
+        if (!release.draft) {
             core.setFailed(`GitHub release for tag '${tag}' is already published.`)
             return
         }
@@ -115,7 +114,6 @@ module.exports = /*async*/ ({github, context, core}) => {
             owner: context.repo.owner,
             repo: context.repo.repo
         })
-        console.log(releases)
         const release = firstOrDefault(releases.data, (x) => x.tag_name == tag)
         return release
     }
