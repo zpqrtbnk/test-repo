@@ -49,6 +49,8 @@ module.exports = /*async*/ ({github, context, core}) => {
                 repo: context.repo.repo,
                 tag: tag
             })
+            console.log('RELEASE')
+            console.log(release)
             if (release === null) {
                 core.setFailed(`Could not find a GitHub release for tag '${tag}'.`)
                 return
@@ -63,7 +65,7 @@ module.exports = /*async*/ ({github, context, core}) => {
             core.setFailed(`Could not find a GitHub release for tag '${tag}'.`)
             return
         }
-        console.log(`Found yet-unpublished GitHub Release for tag '${tag}'.`)
+        console.log(`Found yet-unpublished GitHub release for tag '${tag}'.`)
 
         // tag must not exist
         const tagRefs = await restapi.git.listMatchingRefs({
