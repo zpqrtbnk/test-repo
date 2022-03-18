@@ -111,7 +111,7 @@ module.exports = /*async*/ ({github, context, core}) => {
             repo: context.repo.repo
         })
         console.log(releases)
-        const release = firstOrDefault(release.data, (x) => x.tag == tag)
+        const release = firstOrDefault(releases.data, (x) => x.tag == tag)
         return release
     }
 
