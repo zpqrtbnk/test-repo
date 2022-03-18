@@ -43,24 +43,13 @@ module.exports = /*async*/ ({github, context, core}) => {
         console.log(`Found open milestone '${version}'.`)
 
         // github release must exist and not be published yet
-        try {
-            const release = await restapi.repos.getReleaseByTag({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                tag: tag
-            })
-            if (release === null) {
-                core.setFailed(`Could not find a GitHub release for tag '${tag}'.`)
-                return
-            }
-            if (release.draft) {
-                core.setFailed(`GitHub release for tag '${tag}' is already published.`)
-                return
-            }
-        }
-        catch (error)
-        {
+        const release = await getRelease()
+        if (release === null) {
             core.setFailed(`Could not find a GitHub release for tag '${tag}'.`)
+            return
+        }
+        if (release.draft) {
+            core.setFailed(`GitHub release for tag '${tag}' is already published.`)
             return
         }
         console.log(`Found yet-unpublished GitHub release for tag '${tag}'.`)
@@ -86,11 +75,7 @@ module.exports = /*async*/ ({github, context, core}) => {
         const tag = "v" + version
         console.log(`Publish GitHub release '${version}'.`)
 
-        const release = await restapi.repos.getReleaseByTag({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            tag: tag
-        })
+        const release = await getRelease()
 
         await restapi.repos.updateRelease({
             owner: context.repo.owner,
@@ -113,6 +98,20 @@ module.exports = /*async*/ ({github, context, core}) => {
             milestone_number: milestone.number,
             state: "closed"
         })
+    }
+
+    async function getRelease() {
+
+        // note: getReleaseByTag only returns published releases
+
+        const version = context.payload.inputs.version
+        const tag = `v${version}`
+        const releases = await restapi.repos.listReleases({
+            owner: context.repo.owner,
+            repo: context.repo.repo
+        })
+        const release = firstOrDefault(releases, (x) => x.tag == tag)
+        return release
     }
 
     async function getMilestone() {
