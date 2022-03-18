@@ -1,4 +1,4 @@
-module.exports = async ({github, context, core}) => {
+module.exports = /*async*/ ({github, context, core}) => {
    
     const restapi = github.rest
 
@@ -12,8 +12,12 @@ module.exports = async ({github, context, core}) => {
     }
 
     function test() {
-        console.log("test");
-    }
-    
+        console.log("test " + context.payload.inputs.version)
+    }   
+
     console.log("script")
+
+    return {
+        test: function() { test() }
+    }
 }
