@@ -26,13 +26,6 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: |
-          const script = require('./.github/workflows/publish-release.js')
-          console.log('VERSION')
-          console.log(context.payload.inputs.version)
-          console.log('SCRIPT')
-          console.log(script)
-          const f = await script({github, context, core})
-          console.log('F')
-          console.log(f)
-          console.log('EXECUTE')
-          f.test()
+          const scriptf = require('./.github/workflows/publish-release.js')
+          const script = scriptf({github, context, core})
+          await script.validateRelease()
