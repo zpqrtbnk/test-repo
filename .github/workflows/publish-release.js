@@ -75,11 +75,12 @@ module.exports = /*async*/ ({github, context, core}) => {
 
         // tag must not exist
         try {
-            const ref = await restapi.git.getRef({
+            const refs = await restapi.git.listMatchingRefs({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 ref: 'tags/' + tag
             })
+            console.log(refs)
             core.setFailed(`Tag '${tag}' already exists.`)
             return
         }
