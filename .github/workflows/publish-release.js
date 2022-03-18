@@ -42,8 +42,6 @@ module.exports = /*async*/ ({github, context, core}) => {
             core.setFailed(`Could not find milestone '${version}'.`)
             return
         }
-        console.log('MILESTONE')
-        console.log(milestone)
         if (milestone.state != "open") {
             core.setFailed(`Milestone '${version}' is already closed.`)
             return
@@ -78,7 +76,8 @@ module.exports = /*async*/ ({github, context, core}) => {
             const refs = await restapi.git.listMatchingRefs({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                ref: 'tags/' + tag
+                //ref: 'tags/' + tag
+                ref: 'tags/wip'
             })
             console.log(refs)
             core.setFailed(`Tag '${tag}' already exists.`)
