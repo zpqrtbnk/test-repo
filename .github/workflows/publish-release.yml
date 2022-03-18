@@ -23,3 +23,6 @@ jobs:
           const script = require('./.github/workflows/publish-release.js')
           console.log(context.payload.inputs.version)
           console.log(script)
+          const f = await script({github, context, core})
+          console.log(f)
+          f.test()

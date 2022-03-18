@@ -10,6 +10,10 @@ module.exports = async ({github, context, core}) => {
         }
         return null
     }
+
+    function test() {
+        console.log("test");
+    }
     
     console.log("script")
 }
