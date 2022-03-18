@@ -48,6 +48,7 @@ module.exports = /*async*/ ({github, context, core}) => {
             core.setFailed(`Could not find a GitHub release for tag '${tag}'.`)
             return
         }
+        console.log(release)
         if (release.draft) {
             core.setFailed(`GitHub release for tag '${tag}' is already published.`)
             return
