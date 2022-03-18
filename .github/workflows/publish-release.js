@@ -34,13 +34,24 @@ module.exports = /*async*/ ({github, context, core}) => {
             return
         }
 
+        // github milestone must exist and be open
+        const milestone = getMilestone()
+        if (milestone == null) {
+            core.setFailed(`Could not find milestone '${version}'.`)
+            return
+        }
+        if (milestone.state != "open") {
+            core.setFailed(`Milestone '${version}' is already closed.`)
+            return
+        }
+
         // github release must exist and not be published yet
         try {
             const release = restapi.repos.getReleaseByTag({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 tag: tag
-              })
+            })
             if (release === null) {
                 core.setFailed(`Could not find a GitHub release for tag '${tag}'.`)
                 return
@@ -73,12 +84,50 @@ module.exports = /*async*/ ({github, context, core}) => {
         console.log(`Found branch 'release/${version}', a yet-unpublished GitHub Release for tag '${tag}' which does not exist yet.`)
     }   
 
-    function test() {
-        console.log('TEST')
+    async function publishRelease() {
+
+        const version = context.payload.inputs.version
+        const tag = "v" + version
+        console.log(`Publish GitHub release '${version}'.`)
+
+        const release = restapi.repos.getReleaseByTag({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            tag: tag
+        })
+
+        await restapi.repos.updateRelease({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            release_id: release.id,
+            draft: false
+        })
+    }
+
+    async function closeMilestone() {
+
+        const version = context.payload.inputs.version
+        const tag = "v" + version
+        console.log(`Close milestone '${version}'.`)
+
+        const milestone = await getMilestone()
+        //...
+    }
+
+    async function getMilestone() {
+
+        const version = context.payload.inputs.version
+        const milestonesResponse = await restapi.issues.listMilestones({
+            owner: context.repo.owner,
+            repo: context.repo.repo
+        })
+        const milestones = milestonesResponse.data
+        return firstOrDefault(milestones, (x) => x.title == version)
     }
 
     return {
-        test: test,
-        validateRelease: validateRelease
+        validateRelease: validateRelease,
+        publishRelease: publishRelease,
+        closeMilestone: closeMilestone
     }
 }
