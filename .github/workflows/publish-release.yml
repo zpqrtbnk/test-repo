@@ -1,14 +1,24 @@
 name: Publish Release
-on: workflow_dispatch
+on:
+  workflow_dispatch
+    inputs:
+      description: 'Version'
+      required: true
+
 jobs:
   job:
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/heads/release/') # 19 leading chars
     steps:
     
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Validate the release
       uses: actions/github-script@v5
       with:
         script: |
           const script = require('./.github/workflows/publish-release.js')
+          console.log()
           console.log(script)
