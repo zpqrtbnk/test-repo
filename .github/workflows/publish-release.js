@@ -103,6 +103,10 @@ module.exports = /*async*/ ({github, context, core}) => {
     async function getRelease() {
 
         // note: getReleaseByTag only returns published releases
+        
+        // note: we may eventually need to paginate
+        // and then releases.headers should contain what we need?
+        // https://octokit.github.io/rest.js/v18#pagination
 
         const version = context.payload.inputs.version
         const tag = `v${version}`
@@ -111,7 +115,7 @@ module.exports = /*async*/ ({github, context, core}) => {
             repo: context.repo.repo
         })
         console.log(releases)
-        const release = firstOrDefault(releases.data, (x) => x.tag == tag)
+        const release = firstOrDefault(releases.data, (x) => x.tag_name == tag)
         return release
     }
 
