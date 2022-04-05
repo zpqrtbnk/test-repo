@@ -26,4 +26,9 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world! ${{ secrets.TOP_SECRET }}
+        
+        
+      # Runs a single command using the runners shell
+      - name: Another secret
+        run: echo Hello, world! ${{ secrets.TOP_SECRETTTT }}
 
