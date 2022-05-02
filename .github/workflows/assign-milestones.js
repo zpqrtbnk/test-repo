@@ -148,7 +148,7 @@ module.exports = async ({github, context, core}) => {
             await itemApi.update(request)
         }
         else {
-            console.log('deleted card had no milestone')
+            console.log('deleted card had no milestone testingjc')
         }
     }
     else {
