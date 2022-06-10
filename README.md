@@ -10,7 +10,7 @@ If you are new to Git and GitHub and found this repository through Google: feel 
 
 I will get notified, will review the changes that you propose, and eventually will either merge the changes, or reject them. This *may* take some time as I am not actively monitoring nor maintaining this repository, as you can guess, but I try to be helpful ;)
 
-Don't expect to find anything meaningful nor useful in the repository. Also, I happen to force-push a reset of everything from time to time. This means that I reset all history, including changes that you may have submitted. In theory, noone ever does this to a repository. But hey, this is a *test* repository after all.
+This is mine now
 
 The rest of this README file is mostly random stuff.
 
