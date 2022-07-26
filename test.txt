@@ -1,3 +1,5 @@
 test
-Testing rebase drop on a github pull request
-A second commit
+1. Testing rebase drop on a github pull request
+2. A second commit
+4. Fourth commit (3rd commit has been dropped)
+ba1d77f (Bug Fix)
