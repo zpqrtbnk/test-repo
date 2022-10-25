@@ -2,14 +2,14 @@
 #
 #
 
-name: Build PR (Callable, Branch)
+name: Callable (Branch)
 on: workflow_call
 
 jobs:
 
   build-pr:
   
-    name: "Build PR (Branch)"
+    name: "Callable (Branch)"
     runs-on: ubuntu-latest
     
     steps:
@@ -17,6 +17,7 @@ jobs:
       - name: Step Branch
         shell: bash
         run: |
+          echo "Callable"
           if [ -z "${{ secrets.SOME_SECRET_TOKEN }}" ]; then
             echo "SECRET IS ABSENT"
           else

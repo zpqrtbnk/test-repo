@@ -9,22 +9,15 @@ jobs:
 
   build-pr:
 
-    name: "Build PR #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}"
+    name: "Build PR (Community, Branch) #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}"
     runs-on: ubuntu-latest
 
     steps:
     
-      - name: Step 1
-        shell: bash
-        run: echo "step 1 of \#${{ github.event.pull_request.number }}"
-        
-      - name: Step 2
-        shell: bash
-        run: echo "step 2 of \#${{ github.event.pull_request.number }}"
-
-      - name: Step 3
+      - name: Step
         shell: bash
         run: |
+          echo "PR \#${{ github.event.pull_request.number }}"
           if [ -z "${{ secrets.SOME_SECRET_TOKEN }}" ]; then
             echo "SECRET IS ABSENT"
           else
@@ -33,6 +26,6 @@ jobs:
 
   build-pr-call:
   
-    name: "Build PR Call"
+    name: "Call (Community, Branch)"        
     uses: ./.github/workflows/callme.yml
     secrets: inherit
