@@ -9,12 +9,12 @@ jobs:
 
   build-pr:
   
-    name: "Build PR"
+    name: "Build PR (Organization)"
     runs-on: ubuntu-latest
     
     steps:
     
-      - name: Step
+      - name: Step Organization
         shell: bash
         run: |
           if [ -z "${{ secrets.SOME_SECRET_TOKEN }}" ]; then
