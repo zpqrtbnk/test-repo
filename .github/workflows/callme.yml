@@ -9,7 +9,7 @@ jobs:
 
   build-pr:
   
-    name: "Build PR"
+    name: "Build PR (Branch)"
     runs-on: ubuntu-latest
     
     steps:
