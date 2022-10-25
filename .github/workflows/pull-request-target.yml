@@ -31,8 +31,8 @@ jobs:
             echo "SECRET IS PRESENT"
           fi
 
-  build-pr-call:
-
-    name: "Build PR Call"        
-    uses: ./.github/workflows/callme.yml
-    secrets: inherit
+#  build-pr-call:
+#
+#    name: "Build PR Call"        
+#    uses: ./.github/workflows/callme.yml
+#    secrets: inherit
