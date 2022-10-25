@@ -24,4 +24,9 @@ jobs:
 
       - name: Step 3
         shell: bash
-        run: echo "secret ${{ secrets.SOME_SECRET_TOKEN == "" ? "ABSENT" : "PRESENT" }}"
+        run: |
+          if [ -z "${{ secrets.SOME_SECRET_TOKEN }}" ]; then
+            echo "SECRET IS ABSENT"
+          else
+            echo "SECRET IS PRESENT"
+          fi
