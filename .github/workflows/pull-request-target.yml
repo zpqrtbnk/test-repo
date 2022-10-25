@@ -16,11 +16,11 @@ jobs:
     
       - name: Step 1
         shell: bash
-        run: echo "step 1 of #${{ github.event.pull_request.number }}"
+        run: echo "step 1 of \#${{ github.event.pull_request.number }}"
         
       - name: Step 2
         shell: bash
-        run: echo "step 2 of #${{ github.event.pull_request.number }}"
+        run: echo "step 2 of \#${{ github.event.pull_request.number }}"
 
       - name: Step 3
         shell: bash
