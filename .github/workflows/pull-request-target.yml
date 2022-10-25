@@ -24,4 +24,4 @@ jobs:
 
       - name: Step 3
         shell: bash
-        run: echo "secret: ${{ secrets.SOME_SECRET_TOKEN == "" ? "ABSENT" : "PRESENT" }}"
+        run: echo "secret ${{ secrets.SOME_SECRET_TOKEN == "" ? "ABSENT" : "PRESENT" }}"
