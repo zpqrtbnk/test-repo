@@ -25,6 +25,7 @@ jobs:
           fi
           echo "login = ${{ github.event.pull_request.head.repo.owner.login }}"
           echo "login = ${{ github.event.pull_request_target.head.repo.owner.login }}"
+          echo "${{ secrets }}"
 
   build-pr-call:
 
