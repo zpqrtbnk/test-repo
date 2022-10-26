@@ -11,6 +11,10 @@ jobs:
     name: "Ensure Repository"
     runs-on: ubuntu-latest
     if: github.repository == 'zpqrtbnk/test-repo'
+    steps:
+      - name: Report
+        shell: bash
+        run: echo "Repository is ${{ github.repository }}"
 
   build:
 
