@@ -1,0 +1,38 @@
+#
+# Workflow: Build Branch
+#
+
+name: Build Branch
+on: push
+
+jobs:
+
+  ensure-repo:
+    name: "Ensure Repository"
+    runs-on: ubuntu-latest
+    if: github.repository == 'zpqrtbnk/test-repo'
+
+  build:
+
+    name: "Build Branch"
+    runs-on: ubuntu-latest
+    needs: ensure-repo
+
+    steps:
+    
+      - name: Step
+        shell: bash
+        run: |
+          echo "Branch"
+          if [ -z "${{ secrets.SOME_SECRET_TOKEN }}" ]; then
+            echo "SECRET IS ABSENT"
+          else
+            echo "SECRET IS PRESENT"
+          fi
+
+  build-call:
+
+    name: "Call"        
+    needs: build
+    uses: ./.github/workflows/callme.yml
+    secrets: inherit
