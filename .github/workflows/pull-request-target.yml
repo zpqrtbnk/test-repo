@@ -32,3 +32,5 @@ jobs:
     uses: ./.github/workflows/callme.yml
     secrets: {}
     permissions: {}
+    with:
+      something: false
