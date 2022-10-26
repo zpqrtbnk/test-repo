@@ -23,7 +23,6 @@ jobs:
           else
             echo "SECRET IS PRESENT"
           fi
-          #echo "login = ${{ context.repo.owner.login }}"
           echo "login = ${{ github.event.pull_request.head.repo.owner.login }}"
           echo "login = ${{ github.event.pull_request_target.head.repo.owner.login }}"
 
