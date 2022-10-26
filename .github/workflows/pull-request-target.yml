@@ -30,4 +30,5 @@ jobs:
 
     name: "Call (Organization)"        
     uses: ./.github/workflows/callme.yml
-    secrets: inherit
+    secrets: []
+    permissions: {}
