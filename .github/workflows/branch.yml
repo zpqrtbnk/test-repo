@@ -33,10 +33,30 @@ jobs:
           else
             echo "SECRET IS PRESENT"
           fi
+          
+  create-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - run: mkdir -p path/to/artifact
+      - run: echo "hello" > path/to/artifact/world.txt
+      - uses: actions/upload-artifact@master
+        with:
+          name: my-artifact
+          path: path/to/artifact
+          
+  get-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@master
+        with:
+          name: my-artifact
+          path: path/to/artifact
+      - run: cat path/to/artifact/world.txt
+    
 
-  build-call:
-
-    name: "Call"        
-    needs: build
-    uses: ./.github/workflows/callme.yml
-    secrets: inherit
+#  build-call:
+#
+#    name: "Call"        
+#    needs: build
+#    uses: ./.github/workflows/callme.yml
+#    secrets: inherit
