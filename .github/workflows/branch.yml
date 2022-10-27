@@ -22,8 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: ensure-repo
 
-    steps:
-    
+    steps:    
       - name: Step
         shell: bash
         run: |
@@ -36,6 +35,7 @@ jobs:
           
   create-artifact:
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - run: mkdir -p path/to/artifact
       - run: echo "hello" > path/to/artifact/world.txt
@@ -44,8 +44,24 @@ jobs:
           name: my-artifact
           path: path/to/artifact
           
+  list-artifacts:
+    runs-on: ubuntu-latest
+    needs: create-artifact
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const restapi = github.rest
+            var artifacts = await restapi.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: ${{ github.run_id }},
+            });
+            console.log(artifacts)            
+          
   get-artifact:
     runs-on: ubuntu-latest
+    needs: create-artifact
     steps:
       - uses: actions/download-artifact@master
         with:
