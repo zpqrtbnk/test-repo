@@ -10,7 +10,10 @@ jobs:
   test-ssh:
 
     name: Test SSH
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
 
     steps:
     
@@ -19,6 +22,7 @@ jobs:
         run: |
         
           # no need to install PS!
+          # ubuntu-latest reports 7.2.7
           write-output $PSVersionTable
         
           $ssh = (command ssh).Source
@@ -32,7 +36,10 @@ jobs:
           
           set-content $keyPath "${{ secrets.PRIVATE_TEST_ARTIFACT_KEY }}"
           
-          chmod 600 $keyPath
+          # test-repo complains and refuses to use a non-protected key file
+          if (-not $isWindows) {
+            chmod 600 $keyPath
+          }
         
           mkdir certx
           git init certx
