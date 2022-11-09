@@ -1,0 +1,38 @@
+#
+# Workflow: TEST SSH
+#
+
+name: Build PR (Community)
+on: workflow_run
+
+jobs:
+
+  test-ssh:
+
+    name: Test SSH
+    runs-on: ubuntu-latest
+
+    steps:
+    
+      - name: Step 1
+        shell: pwsh
+        run: |
+        
+          $ssh = (command ssh).Source
+          $ssh = $ssh.Replace('\', '/') # that *has* to be / for git to be happy
+          Write-Output "SSH at $ssh"
+          
+          $keyPath = [System.IO.Path]::GetFullPath($keyPath, "./certx.key")
+          $keyPath = $keyPath.Replace('\', '/') 
+          Write-Output "Key at $keyPath"
+          
+          set-content $keyPath "${{ secrets.PRIVATE_TEST_ARTIFACT_KEY }}"
+        
+          mkdir certx
+          git init certx
+          git -C certx config core.sparseCheckout true
+          git -C certx config core.sshCommand "$ssh -i `"$keyPath`""
+          git -C certx remote add -f origin "git@github.com:hazelcast/private-test-artifacts.git"
+          git -C certx pull origin master
+
+          ls certx
