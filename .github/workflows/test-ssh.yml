@@ -41,10 +41,13 @@ jobs:
           set-content $keyPath "${{ secrets.PRIVATE_TEST_ARTIFACT_KEY }}"
           
           if ($isWindows) {
-            # fails - hangs, actually
-            # is an agent running?
+            # fails - hangs, actually - when updating the origin
+            # is an agent running? no, it's reported as Stopped and Disabled
+            # but... on my local machine it's the same and I don't need it!
             get-service ssh-agent
             get-service ssh-agent | select StartType
+            set-service ssh-agent -startupType Manual
+            start-service ssh-agent
           }
           else {
             # test-repo complains and refuses to use a non-protected key file
