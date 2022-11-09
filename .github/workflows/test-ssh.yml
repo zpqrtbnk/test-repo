@@ -18,6 +18,9 @@ jobs:
         shell: pwsh
         run: |
         
+          # no need to install PS!
+          write-output $PSVersionTable
+        
           $ssh = (command ssh).Source
           $ssh = $ssh.Replace('\', '/') # that *has* to be / for git to be happy
           Write-Output "SSH at $ssh"
@@ -28,6 +31,8 @@ jobs:
           Write-Output "Key at $keyPath"
           
           set-content $keyPath "${{ secrets.PRIVATE_TEST_ARTIFACT_KEY }}"
+          
+          chmod 600 $keyPath
         
           mkdir certx
           git init certx
