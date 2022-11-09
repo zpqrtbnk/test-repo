@@ -24,6 +24,10 @@ jobs:
           # no need to install PS!
           # ubuntu-latest reports 7.2.7
           write-output $PSVersionTable
+          
+          # what about git?
+          # ubuntu-latest reports ...
+          git --version
         
           $ssh = (command ssh).Source
           $ssh = $ssh.Replace('\', '/') # that *has* to be / for git to be happy
@@ -38,6 +42,7 @@ jobs:
           
           # test-repo complains and refuses to use a non-protected key file
           if (-not $isWindows) {
+            # so on ubuntu this reduces the permissions to user-only
             chmod 600 $keyPath
           }
         
