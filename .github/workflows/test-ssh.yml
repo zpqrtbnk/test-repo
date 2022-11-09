@@ -54,6 +54,9 @@ jobs:
             # or is it about env variables? what should they contain?
             # no no no they are just for... passing things to the script
             # do we need this known-hosts thing?
+            if (-not (test-path ~/.ssh)) {
+                mkdir ~/.ssh >$null 2>&1
+            }
             ssh-keyscan -H github.com >> ~/.ssh/known_hosts
             #$env:SSH_KEY_PATH = ""
             #$env:SSH_KNOWN_HOST = "[System.IO.Path]::GetFullPath("./certx.known-hosts", (get-location))"
