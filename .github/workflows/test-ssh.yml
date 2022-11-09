@@ -42,15 +42,17 @@ jobs:
           
           if ($isWindows) {
             # fails - hangs, actually - when updating the origin
-            # is an agent running? no, it's reported as Stopped and Disabled
-            # but... on my local machine it's the same and I don't need it!
-            get-service ssh-agent
-            get-service ssh-agent | select StartType
-            # so maybe it's possible to start it but then what?
-            set-service ssh-agent -startupType Manual
-            start-service ssh-agent
-            # and now?
-            get-service ssh-agent | select Status
+            
+            ## is an agent running? no, it's reported as Stopped and Disabled
+            ## but... on my local machine it's the same and I don't need it!
+            #get-service ssh-agent
+            #get-service ssh-agent | select StartType
+            ## so maybe it's possible to start it but then what?
+            #set-service ssh-agent -startupType Manual
+            #start-service ssh-agent
+            ## and now?            
+            #get-service ssh-agent | select Status
+            
             # or is it about env variables? what should they contain?
             # no no no they are just for... passing things to the script
             # do we need this known-hosts thing?
@@ -58,6 +60,16 @@ jobs:
                 mkdir ~/.ssh >$null 2>&1
             }
             ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+            
+            # OK now SSH complains about the permissions on the key file
+            # in windows?
+            get-acl $keyPath
+            $acl = get-acl $keyPath
+            $isProtected = $true
+            $preserveInheritance = $false
+            $acl.SetAccessRuleProtection($isProtected, $preserveInheritance)
+            set-acl $keyPath $acl
+            
             #$env:SSH_KEY_PATH = ""
             #$env:SSH_KNOWN_HOST = "[System.IO.Path]::GetFullPath("./certx.known-hosts", (get-location))"
             #$env:SSH_PRIVATE_KEY = ""
