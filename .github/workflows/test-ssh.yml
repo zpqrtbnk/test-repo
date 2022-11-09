@@ -46,8 +46,14 @@ jobs:
             # but... on my local machine it's the same and I don't need it!
             get-service ssh-agent
             get-service ssh-agent | select StartType
+            # so maybe it's possible to start it but then what?
             set-service ssh-agent -startupType Manual
             start-service ssh-agent
+            # or is it about env variables?
+            ssh-keyscan -H github.com > ./certx.known-hosts
+            $env:SSH_KEY_PATH = ""
+            $env:SSH_KNOWN_HOST = "[System.IO.Path]::GetFullPath("./certx.known-hosts", (get-location))"
+            $env:SSH_PRIVATE_KEY = ""
           }
           else {
             # test-repo complains and refuses to use a non-protected key file
