@@ -10,6 +10,9 @@ If you are new to Git and GitHub and found this repository through Google: feel 
 
 I will get notified, will review the changes that you propose, and eventually will either merge the changes, or reject them. This *may* take some time as I am not actively monitoring nor maintaining this repository, as you can guess, but I try to be helpful ;)
 
+> NOTE
+> If you want your PR to have a chance to get merged, please propose additions or changes to neutral files such as text files or small images. If you propose changes to the GitHub workflow files, to `.gitignore`, etc. they will quite probably be rejected.
+
 Don't expect to find anything meaningful nor useful in the repository. Also, I happen to force-push a reset of everything from time to time. This means that I reset all history, including changes that you may have submitted. In theory, noone ever does this to a repository. But hey, this is a *test* repository after all.
 
 The rest of this README file is mostly random stuff.
