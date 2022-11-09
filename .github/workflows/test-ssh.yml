@@ -26,7 +26,7 @@ jobs:
           write-output $PSVersionTable
           
           # what about git?
-          # ubuntu-latest reports ...
+          # ubuntu-latest reports 2.38.1
           git --version
         
           $ssh = (command ssh).Source
@@ -40,12 +40,19 @@ jobs:
           
           set-content $keyPath "${{ secrets.PRIVATE_TEST_ARTIFACT_KEY }}"
           
-          # test-repo complains and refuses to use a non-protected key file
-          if (-not $isWindows) {
+          if ($isWindows) {
+            # fails - hangs, actually
+            # is an agent running?
+            get-service ssh-agent
+            get-service ssh-agent | select StartType
+          }
+          else {
+            # test-repo complains and refuses to use a non-protected key file
             # so on ubuntu this reduces the permissions to user-only
+            # and then it all works
             chmod 600 $keyPath
           }
-        
+       
           mkdir certx
           git init certx
           git -C certx config core.sparseCheckout true
