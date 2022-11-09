@@ -2,7 +2,7 @@
 # Workflow: TEST SSH
 #
 
-name: Build PR (Community)
+name: Test SSH
 on: workflow_dispatch
 
 jobs:
