@@ -22,7 +22,8 @@ jobs:
           $ssh = $ssh.Replace('\', '/') # that *has* to be / for git to be happy
           Write-Output "SSH at $ssh"
           
-          $keyPath = [System.IO.Path]::GetFullPath($keyPath, "./certx.key")
+          $keyPath = "./certx.key"
+          $keyPath = [System.IO.Path]::GetFullPath($keyPath, (get-location))
           $keyPath = $keyPath.Replace('\', '/') 
           Write-Output "Key at $keyPath"
           
