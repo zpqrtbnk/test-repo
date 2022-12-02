@@ -17,7 +17,7 @@ jobs:
       - name: Step
         shell: bash
         run: |
-          echo "PR \#${{ github.event.pull_request.number }}"
+          echo "PR #${{ github.event.pull_request.number }}"
           if [ -z "${{ secrets.SOME_SECRET_TOKEN }}" ]; then
             echo "SECRET IS ABSENT"
           else

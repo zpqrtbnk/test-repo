@@ -17,15 +17,32 @@ jobs:
       - name: Step
         shell: bash
         run: |
-          echo "PR \#${{ github.event.pull_request.number }}"
+          echo "PR #${{ github.event.pull_request.number }}"
           if [ -z "${{ secrets.SOME_SECRET_TOKEN }}" ]; then
             echo "SECRET IS ABSENT"
           else
             echo "SECRET IS PRESENT"
           fi
+          echo "login = ${{ github.event.pull_request.head.repo.owner.login }}"
+          echo "login = ${{ github.event.pull_request_target.head.repo.owner.login }}"
+          echo "${{ secrets }}"
+          
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Report
+        shell: bash
+        run: |
+          git l | head -n 12
 
   build-pr-call:
   
     name: "Call (Organization, Branch)"        
     uses: ./.github/workflows/callme.yml
-    secrets: inherit
+    secrets: {}
+    permissions: {}
+    with:
+      something: false

@@ -3,7 +3,13 @@
 #
 
 name: Callable (Branch)
-on: workflow_call
+on: 
+  workflow_call:
+    inputs:
+      something:
+        required: false
+        type: boolean
+        default: true
 
 jobs:
 
@@ -23,3 +29,4 @@ jobs:
           else
             echo "SECRET IS PRESENT"
           fi
+          echo ${{ inputs.something }}
