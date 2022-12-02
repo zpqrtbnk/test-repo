@@ -55,4 +55,4 @@ jobs:
     permissions: {}
     with:
       something: false
-      ref: ${{ needs.build-pr.ref )}}
+      ref: ${{ needs.build-pr.ref }}
