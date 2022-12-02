@@ -26,6 +26,17 @@ jobs:
           echo "login = ${{ github.event.pull_request.head.repo.owner.login }}"
           echo "login = ${{ github.event.pull_request_target.head.repo.owner.login }}"
           echo "${{ secrets }}"
+          
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Report
+        shell: bash
+        run: |
+          git l | head -n 12
 
   build-pr-call:
 
