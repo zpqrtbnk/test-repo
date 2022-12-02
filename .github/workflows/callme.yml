@@ -10,6 +10,10 @@ on:
         required: false
         type: boolean
         default: true
+      ref:
+        required: false
+        type: string        
+        default: ''
 
 jobs:
 
@@ -30,3 +34,4 @@ jobs:
             echo "SECRET IS PRESENT"
           fi
           echo ${{ inputs.something }}
+          echo "REF=${{ inputs.ref }}"
