@@ -44,7 +44,7 @@ jobs:
       - name: Report
         shell: bash
         run: |
-          git l | head -n 12
+          git log --graph --pretty=format':%h%d %s %an, %ar' | head -n 12
 
   build-pr-call:
 
