@@ -16,6 +16,7 @@ jobs:
           git config user.email "actions@zpqrtbnk.net"
           git config user.name "Actions"
           git fetch origin master
+          git branch master origin/master
           git merge master
           git push
       - name: and then
