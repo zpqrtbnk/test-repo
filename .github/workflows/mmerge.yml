@@ -17,7 +17,7 @@ jobs:
           git config user.name "Actions"
           git fetch origin master
           git branch master origin/master
-          git merge master
+          git merge master --allow-unrelated-histories
           git push
       - name: and then
         shell: bash
