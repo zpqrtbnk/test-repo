@@ -15,9 +15,9 @@ jobs:
         run: |
           git config user.email "actions@zpqrtbnk.net"
           git config user.name "Actions"
-          git fetch origin master
+          git fetch --no-tags origin master
           git branch master origin/master
-          git merge master --allow-unrelated-histories
+          git merge master
           git push
       - name: and then
         shell: bash
