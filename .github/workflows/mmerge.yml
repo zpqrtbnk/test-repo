@@ -1,0 +1,25 @@
+name: MMERGE
+on: workflow_dispatch
+jobs:
+  job:
+    name: job
+    runs-on: windows-latest    
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with: 
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: other
+      - name: merge
+        shell: bash
+        run: |
+          git config user.email "actions@zpqrtbnk.net"
+          git config user.name "Actions"
+          git fetch origin master
+          git branch master origin/master
+          git merge master --allow-unrelated-histories
+          git push
+      - name: and then
+        shell: bash
+        run: |
+          ls
