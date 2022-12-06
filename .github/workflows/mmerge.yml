@@ -30,5 +30,6 @@ jobs:
       - name: commit and push back
         shell: bash
         run: |
-            git amend -m "wooplala"
+            # we don't want to add another commit on top of the merge, just shoobi it
+            git commit --amend -m "wooplala"
             git push
