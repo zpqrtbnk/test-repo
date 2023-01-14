@@ -25,11 +25,13 @@ We have an image in the README (markdown)
 ![Image](https://raw.github.com/zpqrtbnk/test-repo/master/wtf.jpg)
 
 We have an image in the README (html)
-<img src="./wtf.jpg" />
+<img src="https://raw.github.com/zpqrtbnk/test-repo/master/wtf.jpg" style="max-width:100px;"/>
 
 We have an image in the README (more html)
 <p align="center" style="background:#000;padding:5px;color:#fff;font-size:150%;margin-bottom:64px">
-    <img src="./wtf.jpg" />
+    <img src="https://raw.github.com/zpqrtbnk/test-repo/master/wtf.jpg" style="max-width:100px;" />
     <span style="margin-left:48px;">wubble</span>
 </p>
+
+<p> some random text in README.md</p>
 
