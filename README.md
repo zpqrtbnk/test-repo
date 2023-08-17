@@ -23,6 +23,7 @@ We have test GitHUb pages (from the `gh-pages` branch) at: http://zpqrtbnk.githu
 
 We have an image in the README (markdown)
 ![Image](https://raw.github.com/zpqrtbnk/test-repo/master/wtf.jpg)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fbohdandone%2Fnew-for-test.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fbohdandone%2Fnew-for-test?ref=badge_shield)
 
 We have an image in the README (html)
 <img src="./wtf.jpg" />
@@ -33,3 +34,7 @@ We have an image in the README (more html)
     <span style="margin-left:48px;">wubble</span>
 </p>
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fbohdandone%2Fnew-for-test.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fbohdandone%2Fnew-for-test?ref=badge_large)
