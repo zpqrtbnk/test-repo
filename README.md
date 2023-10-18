@@ -1,12 +1,12 @@
 # A Git(Hub) Test Repository
 
-Hey! This is my personal Git(Hub) Test Repository where I experiment with Git and GitHub. 
+Hey! This is my personal Git(Hub) Test Repository where I experiment with Git and GitHub.
 
-If you are new to Git and GitHub and found this repository through Google: feel free to clone the repository and experiment with it! You will not be able to push back to the repository, as it is *my* repository and I cannot let everybody push to it. The right way to do it on GitHub is: 
+If you are new to Git and GitHub and found this repository through Google: feel free to clone the repository and experiment with it! You will not be able to push back to the repository, as it is *my* repository and I cannot let everybody push to it. The right way to do it on GitHub is:
 
-1. fork the repository in your own account, 
-2. make changes and push them in a branch of your own fork, 
-3. create a Pull Request in my repository. 
+1. fork the repository in your own account,
+2. make changes and push them in a branch of your own fork,
+3. create a Pull Request in my repository.
 
 I will get notified, will review the changes that you propose, and eventually will either merge the changes, or reject them. This *may* take some time as I am not actively monitoring nor maintaining this repository, as you can guess, but I try to be helpful ;)
 
@@ -19,7 +19,7 @@ The rest of this README file is mostly random stuff.
 
 Clone the repository with: `git clone https://github.com/zpqrtbnk/test-repo.git .`
 
-We have test GitHUb pages (from the `gh-pages` branch) at: http://zpqrtbnk.github.io/test-repo/ 
+We have test GitHUb pages (from the `gh-pages` branch) at: <http://zpqrtbnk.github.io/test-repo/>
 
 We have an image in the README (markdown)
 ![Image](https://raw.github.com/zpqrtbnk/test-repo/master/wtf.jpg)
@@ -33,3 +33,4 @@ We have an image in the README (more html)
     <span style="margin-left:48px;">wubble</span>
 </p>
 
+Thanks for this test repo!
