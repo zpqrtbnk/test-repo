@@ -1,6 +1,7 @@
 # A Git(Hub) Test Repository
 
 Hey! This is my personal Git(Hub) Test Repository where I experiment with Git and GitHub. 
+Hey! This is my personal Git(Hub) Test Repository where I experiment with Git and GitHub. 
 
 If you are new to Git and GitHub and found this repository through Google: feel free to clone the repository and experiment with it! You will not be able to push back to the repository, as it is *my* repository and I cannot let everybody push to it. The right way to do it on GitHub is: 
 
