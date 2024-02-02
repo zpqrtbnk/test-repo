@@ -16,6 +16,7 @@ testybox
 Don't expect to find anything meaningful nor useful in the repository. Also, I happen to force-push a reset of everything from time to time. This means that I reset all history, including changes that you may have submitted. In theory, noone ever does this to a repository. But hey, this is a *test* repository after all.
 
 The rest of this README file is mostly random stuff.
+The rest of this README file is mostly random stuff.
 
 Clone the repository with: `git clone https://github.com/zpqrtbnk/test-repo.git .`
 
