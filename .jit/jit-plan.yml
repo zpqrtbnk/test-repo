@@ -1,14 +1,24 @@
+name: My plan
+level: beginner
+author: Jit
+version: 0.1
 owners:
   default: null
-name: My plan
-author: Jit
+references:
+  - https://www.jit.io
+tags: []
 items:
   - name: Scan your code for vulnerabilities (SAST)
     uses: >-
       jitsecurity-controls/jit-plans/items/code/item-code-vulnerability.yml@latest
-level: beginner
-version: 0.1
-references:
-  - https://www.jit.io
-tags: []
+  - name: |
+      Confirm your hosting model
+    uses: >-
+      jitsecurity-controls/jit-plans/items/partner_hosted/item-partner-hosting-model.yml@latest
+    input:
+      note: ''
+      requirements:
+        '1':
+          status: passed
+          note: test
 
