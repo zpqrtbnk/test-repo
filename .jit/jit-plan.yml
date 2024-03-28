@@ -1,0 +1,25 @@
+name: My plan
+level: beginner
+update_id: bde4a25b-fd35-4c26-908f-39847003710a
+author: Jit
+version: 0.1
+owners:
+  default: null
+references:
+  - https://www.jit.io
+tags: []
+items:
+  - name: Scan your code for vulnerabilities (SAST)
+    uses: jitsecurity-controls/jit-plans/items/code/item-code-vulnerability.yml@latest
+  - name: Confirm your hosting model
+
+    uses: jitsecurity-controls/jit-plans/items/partner_hosted/item-partner-hosting-model.yml@latest
+    input:
+      note: ''
+      requirements:
+        '1':
+          note: test
+          status: passed
+      status: null
+  - name: Generate a Software Bill of Materials (SBOM)
+    uses: jitsecurity-controls/jit-plans/items/code/item-software-bill-of-materials.yml@latest
