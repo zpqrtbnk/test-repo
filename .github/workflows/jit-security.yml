@@ -14,7 +14,7 @@ permissions:
 jobs:
   enrich:
     if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'enrich' && fromJSON(github.event.inputs.client_payload).payload.workflow_slug == 'workflow-enrichment-code'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     steps:
     - name: enrichment
@@ -24,7 +24,7 @@ jobs:
         
   remediation-pr:
     if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'remediation-pr' && fromJSON(github.event.inputs.client_payload).payload.workflow_slug == 'workflow-remediation-pr'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     steps:
     - name: remediation-pr
@@ -35,7 +35,7 @@ jobs:
         
   software-bill-of-materials:
     if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'software-bill-of-materials' && fromJSON(github.event.inputs.client_payload).payload.workflow_slug == 'workflow-sbom'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     steps:
     - name: syft
@@ -46,7 +46,7 @@ jobs:
         
   static-code-analysis-c-cpp:
     if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'static-code-analysis-c-cpp' && fromJSON(github.event.inputs.client_payload).payload.workflow_slug == 'workflow-sast'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     steps:
     - name: semgrep
@@ -56,7 +56,7 @@ jobs:
         
   static-code-analysis-csharp:
     if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'static-code-analysis-csharp' && fromJSON(github.event.inputs.client_payload).payload.workflow_slug == 'workflow-sast'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     steps:
     - name: semgrep
@@ -66,7 +66,7 @@ jobs:
         
   static-code-analysis-go:
     if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'static-code-analysis-go' && fromJSON(github.event.inputs.client_payload).payload.workflow_slug == 'workflow-sast'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     steps:
     - name: gosec
@@ -76,7 +76,7 @@ jobs:
         
   static-code-analysis-java:
     if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'static-code-analysis-java' && fromJSON(github.event.inputs.client_payload).payload.workflow_slug == 'workflow-sast'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     steps:
     - name: semgrep
@@ -86,7 +86,7 @@ jobs:
         
   static-code-analysis-js:
     if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'static-code-analysis-js' && fromJSON(github.event.inputs.client_payload).payload.workflow_slug == 'workflow-sast'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     steps:
     - name: semgrep
@@ -96,7 +96,7 @@ jobs:
         
   static-code-analysis-kotlin:
     if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'static-code-analysis-kotlin' && fromJSON(github.event.inputs.client_payload).payload.workflow_slug == 'workflow-sast'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     steps:
     - name: semgrep
@@ -106,7 +106,7 @@ jobs:
         
   static-code-analysis-php:
     if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'static-code-analysis-php' && fromJSON(github.event.inputs.client_payload).payload.workflow_slug == 'workflow-sast'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     steps:
     - name: semgrep
@@ -116,7 +116,7 @@ jobs:
         
   static-code-analysis-python-semgrep:
     if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'static-code-analysis-python-semgrep' && fromJSON(github.event.inputs.client_payload).payload.workflow_slug == 'workflow-sast'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     steps:
     - name: semgrep
@@ -126,7 +126,7 @@ jobs:
         
   static-code-analysis-ruby:
     if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'static-code-analysis-ruby' && fromJSON(github.event.inputs.client_payload).payload.workflow_slug == 'workflow-sast'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     steps:
     - name: semgrep
@@ -136,7 +136,7 @@ jobs:
         
   static-code-analysis-rust:
     if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'static-code-analysis-rust' && fromJSON(github.event.inputs.client_payload).payload.workflow_slug == 'workflow-sast'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     steps:
     - name: semgrep
@@ -146,7 +146,7 @@ jobs:
         
   static-code-analysis-scala:
     if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'static-code-analysis-scala' && fromJSON(github.event.inputs.client_payload).payload.workflow_slug == 'workflow-sast'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     steps:
     - name: semgrep
@@ -156,7 +156,7 @@ jobs:
         
   static-code-analysis-swift:
     if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'static-code-analysis-swift' && fromJSON(github.event.inputs.client_payload).payload.workflow_slug == 'workflow-sast'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     steps:
     - name: semgrep
