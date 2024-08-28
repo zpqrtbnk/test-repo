@@ -6,7 +6,6 @@ name: Build PR (Community)
 on: pull_request
 
 jobs:
-
   build-pr:
 
     name: "Build PR (Community) #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}"
