@@ -29,8 +29,12 @@ jobs:
       - name: Get commit messages since last tag
         id: get-commits
         run: |
-          last_tag=$(git describe --tags --abbrev=0)
-          commits=$(git log ${last_tag}..HEAD --pretty=format:"%s")
+          last_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -z "$last_tag" ]; then
+            commits=$(git log --pretty=format:"%s")
+          else
+            commits=$(git log ${last_tag}..HEAD --pretty=format:"%s")
+          fi
           echo "::set-output name=commits::$commits"
 
       - name: Create pre-release
