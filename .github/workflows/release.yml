@@ -28,7 +28,7 @@ jobs:
         uses: ncipollo/release-action@v1.14.0
         with:
           generateReleaseNotes: true
-          makeLatest: false
-          prerelease: true
+          makeLatest: true
+          prerelease: false
           skipIfReleaseExists: true
           tag: v${{ steps.autotag.outputs.new-tag }}
