@@ -16,6 +16,9 @@ jobs:
       release-tag: ${{ steps.autotag.outputs.new-tag }}
       release-url: ${{ steps.release.outputs.html_url }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Increment version tag
         id: autotag
         uses: phish108/autotag-action@v1.1.64
