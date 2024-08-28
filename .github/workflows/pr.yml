@@ -1,0 +1,17 @@
+name: pr
+
+on: [push]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create PR
+        uses: poorva17/create-pr-action@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_BRANCH: develop
+          BASE_BRANCH: master
