@@ -1,0 +1,32 @@
+name: Create Release Branch on PR Merge
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  create_release_branch:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'release'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Create release branch if not exists
+        run: |
+          git fetch origin
+          if ! git show-ref --verify --quiet refs/heads/release; then
+            git checkout -b release
+            git push origin release
+          fi
+
+      - name: Merge pull request into release branch
+        run: |
+          git checkout release
+          git merge --no-ff ${{ github.event.pull_request.head.ref }}
+          git push origin release
