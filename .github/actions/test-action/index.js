@@ -8,11 +8,6 @@ async function run() {
 
     core.info('Begin');
 
-    // get inputs
-    const token = core.getInput('token', { required: true });
-    const name = core.getInput('name', { required: true });
-    const path = core.getInput('path', { required: true });
-    const version = core.getInput('version', { required: false });
     
     // get the REST api
     const octokit = github.getOctokit(token);
