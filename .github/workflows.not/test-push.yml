@@ -10,7 +10,7 @@ jobs:
           with:
             ref: ${{github.ref}}
             
-        - name: Foo
+        - name: Foolish man
           shell: bash
           run: |
             echo "foo" >> foo.txt

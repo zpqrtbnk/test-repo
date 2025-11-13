@@ -27,7 +27,7 @@ jobs:
       - name: Step Organization
         shell: bash
         run: |
-          echo "Callable"
+          echo "Callable Marko"
           if [ -z "${{ secrets.SOME_SECRET_TOKEN }}" ]; then
             echo "SECRET IS ABSENT"
           else
