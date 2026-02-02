@@ -14,7 +14,7 @@ I will get notified, will review the changes that you propose, and eventually wi
 > If you want your PR to have a chance to get merged, please propose additions or changes to neutral files such as text files or small images. If you propose changes to the GitHub workflow files, to `.gitignore`, etc. they will quite probably be rejected.
 
 > [!TIP]
-> New in 2026! Up until now I had to reject most PRs as they were either adding new files, or modifying files that I would rather not modify. There is now a `RANDOM.md` file at the top of the repository: I do not care what goes into that file. If your PR targets that file only, and is OK-enough (no profanity, no... you know) I *will* try to merge it.
+> New in 2026! Up until now I had to reject most PRs as they were either adding new files, or modifying files that I would rather not modify. There is now a `RANDOM.md` file at the top of the repository: I do not care what goes into that file. If your PR targets that file only, and is OK-enough (no profanity, no... you know) I *will* try to merge it. OK and... you want to *add* files? Let us say we do the same with the `random` directory: anything OK-enough proposed in that directory will be merged. Enjoy!
 
 Don't expect to find anything meaningful nor useful in the repository. Also, I happen to force-push a reset of everything from time to time. This means that I reset all history, including changes that you may have submitted. In theory, noone ever does this to a repository. But hey, this is a *test* repository after all.
 
